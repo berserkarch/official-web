@@ -7,12 +7,16 @@ import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
+import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://berserkarch.org',
+
   vite: {
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), mdx(), sitemap()]
+  integrations: [react(), mdx(), sitemap()],
+  adapter: vercel()
 });
