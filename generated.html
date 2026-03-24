@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BERSERK_ARCH | BUILT FOR THOSE WHO DON'T BREAK</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-container": "#424242",
+                        "on-tertiary": "#303031",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "on-secondary-fixed": "#1c1b1b",
+                        "outline": "#aa8984",
+                        "on-tertiary-fixed": "#1b1c1c",
+                        "secondary-fixed": "#e5e2e1",
+                        "inverse-surface": "#e2e2e2",
+                        "secondary": "#c8c6c5",
+                        "outline-variant": "#5a403c",
+                        "on-primary-fixed": "#410000",
+                        "tertiary": "#c7c6c6",
+                        "background": "#131313",
+                        "surface-container": "#1f1f1f",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "surface-variant": "#353535",
+                        "secondary-fixed-dim": "#c8c6c5",
+                        "primary-fixed": "#ffdad4",
+                        "on-surface": "#e2e2e2",
+                        "surface-container-lowest": "#0e0e0e",
+                        "inverse-primary": "#b52619",
+                        "surface-dim": "#131313",
+                        "surface-tint": "#ffb4a8",
+                        "primary-container": "#8b0000",
+                        "primary-fixed-dim": "#ffb4a8",
+                        "secondary-container": "#474746",
+                        "on-secondary-container": "#b7b5b4",
+                        "on-primary-container": "#ff907f",
+                        "on-primary": "#690000",
+                        "error": "#ffb4ab",
+                        "on-primary-fixed-variant": "#920703",
+                        "inverse-on-surface": "#303030",
+                        "on-surface-variant": "#e3beb8",
+                        "surface": "#131313",
+                        "on-tertiary-container": "#afaeae",
+                        "on-background": "#e2e2e2",
+                        "surface-container-high": "#2a2a2a",
+                        "surface-bright": "#393939",
+                        "primary": "#ffb4a8",
+                        "on-error": "#690005",
+                        "on-secondary-fixed-variant": "#474746",
+                        "surface-container-highest": "#353535",
+                        "surface-container-low": "#1b1b1b",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary": "#313030",
+                        "error-container": "#93000a",
+                        "tertiary-fixed": "#e3e2e2"
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk", "monospace"],
+                        "body": ["Inter", "monospace"],
+                        "label": ["Space Grotesk", "monospace"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                },
+            },
+        }
+    </script>
+<style>
+        body {
+            background-color: #131313;
+            color: #e2e2e2;
+            font-family: 'Space Grotesk', monospace;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .grit-grid {
+            background-image: radial-gradient(rgba(139, 0, 0, 0.1) 1px, transparent 0);
+            background-size: 24px 24px;
+        }
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: rgba(139, 0, 0, 0.05);
+            position: absolute;
+            z-index: 10;
+        }
+        ::selection {
+            background-color: #8b0000;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary-container selection:text-white">
+<!-- TopNavBar Shell -->
+<nav class="bg-[#131313] dark:bg-[#131313] docked full-width top-0 border-b-0 border-b border-[#5a403c]/20 flex justify-between items-center w-full px-6 py-4 max-w-none sticky z-50">
+<div class="flex items-center gap-2">
+<span class="text-xl font-black text-[#8B0000] tracking-tighter italic">BERSERK_ARCH</span>
+<span class="font-mono text-[10px] text-outline-variant opacity-50 ml-2 hidden md:inline">REV.2024.08</span>
+</div>
+<div class="hidden md:flex items-center gap-8 font-mono tracking-tighter uppercase text-sm font-bold">
+<a class="text-[#e2e2e2] hover:text-[#8B0000] hover:bg-[#1b1b1b] transition-colors duration-75" href="#">FEATURES</a>
+<a class="text-[#e2e2e2] hover:text-[#8B0000] hover:bg-[#1b1b1b] transition-colors duration-75" href="#">DOCS</a>
+<a class="text-[#e2e2e2] hover:text-[#8B0000] hover:bg-[#1b1b1b] transition-colors duration-75" href="#">GITHUB</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-[#8B0000] hover:bg-[#1b1b1b] p-2 transition-colors duration-75 active:translate-x-0.5 active:translate-y-0.5">
+<span class="material-symbols-outlined">terminal</span>
+</button>
+</div>
+</nav>
+<main class="grit-grid min-h-screen">
+<!-- Hero Section -->
+<section class="relative px-6 py-24 md:py-32 flex flex-col items-start max-w-7xl mx-auto border-l border-outline-variant/20">
+<div class="absolute top-0 right-0 p-6 text-right font-mono text-[10px] text-outline-variant uppercase tracking-widest leading-relaxed">
+                STATUS: AGGRESSIVE<br/>
+                KERNEL: HARDENED_X64<br/>
+                UPLOADING_CORE_LOGIC...
+            </div>
+<div class="mb-4 text-[#8B0000] font-mono text-sm tracking-widest font-bold">
+                [ SYSTEM_INIT ]
+            </div>
+<h1 class="text-6xl md:text-8xl font-black tracking-tighter mb-8 max-w-4xl uppercase leading-[0.9]">
+                BUILT FOR THOSE <span class="text-primary-container">WHO DON'T BREAK</span>
+</h1>
+<p class="text-secondary font-mono text-lg mb-12 max-w-2xl leading-relaxed border-l-2 border-primary-container pl-6">
+                A brutalist execution of the Arch Linux philosophy. Stripped of vanity. Hardened for performance. The elite interface for the modern operator.
+            </p>
+<div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+<button class="bg-primary-container text-white px-10 py-4 font-mono font-black uppercase tracking-widest hover:brightness-110 active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    GET ISO
+                </button>
+<button class="border border-primary-container text-primary-container px-10 py-4 font-mono font-bold uppercase tracking-widest hover:bg-primary-container hover:text-white active:translate-x-0.5 active:translate-y-0.5 transition-all">
+                    READ DOCS
+                </button>
+</div>
+</section>
+<!-- Features Bento Grid -->
+<section class="px-6 py-20 max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-0 border border-outline-variant/30">
+<!-- Performance -->
+<div class="p-8 border-b md:border-b-0 md:border-r border-outline-variant/30 bg-surface-container-lowest">
+<div class="text-primary-container mb-6">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">bolt</span>
+</div>
+<h3 class="text-xl font-bold font-mono uppercase tracking-tighter mb-4 text-on-surface">PERFORMANCE</h3>
+<p class="text-secondary font-mono text-sm leading-relaxed">
+                        Zero bloat architecture. Pre-compiled for extreme instruction sets. Response times measured in microseconds, not milliseconds.
+                    </p>
+<div class="mt-8 font-mono text-[10px] text-outline-variant">
+                        LATENCY: &lt; 0.02ms<br/>
+                        OVERHEAD: MINIMAL
+                    </div>
+</div>
+<!-- Customization -->
+<div class="p-8 border-b md:border-b-0 md:border-r border-outline-variant/30 bg-surface-container-low">
+<div class="text-primary-container mb-6">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">settings_input_component</span>
+</div>
+<h3 class="text-xl font-bold font-mono uppercase tracking-tighter mb-4 text-on-surface">CUSTOMIZATION</h3>
+<p class="text-secondary font-mono text-sm leading-relaxed">
+                        Full control over the Tiling Window Manager environment. Config-first approach. Every pixel belongs to you.
+                    </p>
+<div class="mt-8 font-mono text-[10px] text-outline-variant">
+                        WM: BERSERK_TWM<br/>
+                        COMPOSITOR: RAW
+                    </div>
+</div>
+<!-- Security -->
+<div class="p-8 bg-surface-container-lowest">
+<div class="text-primary-container mb-6">
+<span class="material-symbols-outlined text-4xl" data-weight="fill">encrypted</span>
+</div>
+<h3 class="text-xl font-bold font-mono uppercase tracking-tighter mb-4 text-on-surface">SECURITY</h3>
+<p class="text-secondary font-mono text-sm leading-relaxed">
+                        Hardened kernel by default. Sandboxed environment variables. Encrypted memory blocks for critical process handling.
+                    </p>
+<div class="mt-8 font-mono text-[10px] text-outline-variant">
+                        ENCRYPTION: AES-256-GCM<br/>
+                        FIREWALL: ACTIVE
+                    </div>
+</div>
+</div>
+</section>
+<!-- Installation Methods -->
+<section class="px-6 py-20 bg-surface-container-lowest border-y border-outline-variant/20">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-3xl font-black font-mono uppercase tracking-tighter mb-12 border-l-4 border-primary-container pl-4">DEPLOYMENT_VECTORS</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- ISO Method -->
+<div class="bg-surface-container-low border border-outline-variant/30 p-1">
+<div class="bg-surface-container-high px-4 py-2 border-b border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-mono font-bold uppercase tracking-widest">ISO_FLASH.SH</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 bg-outline-variant/40"></div>
+<div class="w-2 h-2 bg-outline-variant/40"></div>
+</div>
+</div>
+<div class="p-6 font-mono text-xs overflow-x-auto">
+<code class="block text-secondary leading-relaxed">
+<span class="text-primary-container"># Download image</span><br/>
+                                curl -O https://berserkarch.org/latest.iso<br/><br/>
+<span class="text-primary-container"># Verify signature</span><br/>
+                                gpg --verify latest.iso.sig<br/><br/>
+<span class="text-primary-container"># Flash to medium</span><br/>
+                                sudo dd if=latest.iso of=/dev/sdX bs=4M status=progress
+                            </code>
+</div>
+</div>
+<!-- Netinstall Method -->
+<div class="bg-surface-container-low border border-outline-variant/30 p-1">
+<div class="bg-surface-container-high px-4 py-2 border-b border-outline-variant/30 flex justify-between items-center">
+<span class="text-[10px] font-mono font-bold uppercase tracking-widest">NET_DEPLOY.SH</span>
+<div class="flex gap-1">
+<div class="w-2 h-2 bg-outline-variant/40"></div>
+<div class="w-2 h-2 bg-outline-variant/40"></div>
+</div>
+</div>
+<div class="p-6 font-mono text-xs overflow-x-auto">
+<code class="block text-secondary leading-relaxed">
+<span class="text-primary-container"># Live environment script</span><br/>
+                                bash &lt;(curl -sL https://berserkarch.org/install)<br/><br/>
+<span class="text-primary-container"># Select profile</span><br/>
+                                --profile: <span class="text-primary-container">CORE_MINIMAL</span><br/>
+                                --wm: <span class="text-primary-container">BERSERK_WM</span><br/>
+                                --fs: <span class="text-primary-container">BTRFS</span>
+</code>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Screenshots Section -->
+<section class="px-6 py-20 max-w-7xl mx-auto">
+<h2 class="text-3xl font-black font-mono uppercase tracking-tighter mb-12 text-right border-r-4 border-primary-container pr-4">VISUAL_TELEMETRY</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+<div class="space-y-4">
+<div class="aspect-video bg-surface-container-low border border-outline-variant/30 relative group overflow-hidden">
+<img alt="Berserk Arch WM setup" class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500" data-alt="Dark tiling window manager with red terminal text" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxs-vqJQd9xqJB1BxxWEc2qn8c-Q6Fc5cFJAkr_bME2C2H6pobfAX4MReENawJ7cHfE0lCObVHGxnfoS2oiAsRUPqbiG-gGQ2HWik9jZep32Mp3x9tqcqozBY3Yt5bn5miNz2SUN1QffmMlUW_0e_tYpoQFi_9gk9p0JGHi1_cEdTDE4a5MM_cy3k9ssIFBuwJoJu9HS0t2pC3gxCu1rU3bFJ0bbTFY6qhhfw6ABuebykzVcb7T1h584BGEeko_hAlqpNlDapSkrk"/>
+<div class="absolute inset-0 border-[20px] border-transparent group-hover:border-primary-container/10 transition-all pointer-events-none"></div>
+<div class="absolute bottom-4 left-4 bg-[#131313] px-3 py-1 font-mono text-[10px] border border-outline-variant/30 uppercase">WORKSPACE_01 // TILING</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="aspect-video bg-surface-container-low border border-outline-variant/30 relative group overflow-hidden">
+<img alt="Berserk Arch terminal" class="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-500" data-alt="Monochrome code on a dark terminal screen" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCfQMzdlp97b2dhgKOxE3lrd3EWO38LEAUjX77IQ_7ZkZViLOdxAEZTLm5xULGx9amyDjGOOetF8YJD7M22lgDSxRZ6qpJuyEcoypDN_an88V_iCJTvVT45HuJnsQ1xScIR1zXvkTvz-urJAptePFYGwnR34bxUKf73H2U1w3B4h2PqN5oYPYEbJYAzwkewEQI_KhEyEmudrL8wv607R_nV64AD8OYEGKTYQEWbLtSxH6mex0_kSzBjRxxQHJuoGHI4EntM2Y27dYg"/>
+<div class="absolute inset-0 border-[20px] border-transparent group-hover:border-primary-container/10 transition-all pointer-events-none"></div>
+<div class="absolute bottom-4 left-4 bg-[#131313] px-3 py-1 font-mono text-[10px] border border-outline-variant/30 uppercase">WORKSPACE_02 // SYSTEM_LOGS</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="bg-[#0e0e0e] dark:bg-[#0e0e0e] docked full-width bottom-0 border-t-0 border-t border-[#5a403c]/20 flex flex-col md:flex-row justify-between items-center w-full px-6 py-8 gap-4">
+<div class="flex flex-col gap-2">
+<span class="text-sm font-bold text-[#e2e2e2] font-mono">BERSERK_ARCH_OPERATIONS</span>
+<span class="font-mono text-[10px] tracking-widest uppercase text-[#5a403c]">©2024 BERSERK_ARCH_OPERATIONS</span>
+</div>
+<div class="flex gap-8 font-mono text-[10px] tracking-widest uppercase">
+<a class="text-[#5a403c] hover:text-[#e2e2e2] underline" href="#">ARCH_LINUX</a>
+<a class="text-[#5a403c] hover:text-[#e2e2e2] underline" href="#">GITHUB</a>
+<a class="text-[#5a403c] hover:text-[#e2e2e2] underline" href="#">SOURCE</a>
+</div>
+<div class="text-[10px] font-mono text-[#5a403c] hidden md:block uppercase">
+            END_OF_TRANSMISSION // [0.0000s]
+        </div>
+</footer>
+</body></html>

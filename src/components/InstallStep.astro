@@ -1,0 +1,7 @@
+---
+const { number, title, active = false } = Astro.props;
+---
+<div class={`flex items-center gap-4 ${active ? 'text-primary' : 'text-primary opacity-40'}`}>
+    <span class={`font-mono ${active ? 'font-bold' : ''}`}>{number}.</span>
+    <span class="uppercase font-bold tracking-widest text-xs">{title}</span>
+</div>

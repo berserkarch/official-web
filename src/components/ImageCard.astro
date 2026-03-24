@@ -1,0 +1,12 @@
+---
+const { imgSrc, imgAlt, labelId, title, class: className } = Astro.props;
+---
+<div class={`md:col-span-4 image-card-container group ${className || ''}`}>
+    <img alt={imgAlt} class="h-80 image-card-img" data-alt={imgAlt} src={imgSrc}/>
+    <div class="absolute top-0 right-0 p-4 bg-primary text-on-primary font-bold">
+        <span class="text-[10px] font-mono">{labelId}</span>
+    </div>
+    <div class="p-4 bg-surface-container border-t border-primary/20">
+        <p class="font-mono text-xs uppercase tracking-tighter text-primary font-bold">{title}</p>
+    </div>
+</div>

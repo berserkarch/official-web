@@ -1,0 +1,29 @@
+---
+import FeatureCard from './FeatureCard.astro';
+---
+<!-- Features Section -->
+<section class="py-24 px-8 md:px-24 bg-surface-container-lowest border-b border-primary/10">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Security -->
+<div class="reveal">
+    <FeatureCard icon="security" modNumber="MOD_01" title="Minimal by Design" description="A clean, lightweight foundation with only essential packages. No bloat, easy to audit, and flexible enough to build into any workflow." />
+</div>
+<!-- Customization -->
+<div class="reveal reveal-delay-100">
+    <FeatureCard icon="settings_input_component" modNumber="MOD_02" title="Hacking &amp; Development Ready" description=" Pre-tuned for security researchers and developers with red-team tooling, programming stacks, and a fast, customizable environment." />
+</div>
+<!-- Performance -->
+<div class="reveal reveal-delay-200 md:col-span-2 lg:col-span-1">
+    <FeatureCard icon="bolt" modNumber="MOD_03" title="Powered by Arch Linux" description="Rolling release, bleeding-edge packages, Pacman speed, and full Arch ecosystem — with Berserk Arch optimizations on top." />
+</div>
+</div>
+
+<!-- Disclaimer Box -->
+<div class="reveal reveal-delay-300 mt-8 p-6 bg-surface-container border-l-4 border-primary text-center flex items-center justify-center gap-3 hover:bg-surface-container-high hover:-translate-y-2 hover:shadow-[0_10px_30px_-15px_rgba(139,233,253,0.3)] transition-all duration-300">
+    <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">warning</span>
+    <p class="text-on-surface-variant font-mono text-xs md:text-sm tracking-widest uppercase">
+        WARNING: BY NO MEANS IS THIS A BEGINNER FRIENDLY DISTRO, YOU'LL HAVE TO KNOW YOUR WAY AROUND LINUX TO USE IT PROPERLY.
+    </p>
+</div>
+
+</section>

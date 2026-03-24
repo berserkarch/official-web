@@ -1,0 +1,339 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import DocsSidebarNode from '../../components/DocsSidebarNode.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+    const docsEntries = await getCollection('docs');
+    return docsEntries.map(entry => ({
+        params: { slug: entry.id }, props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const allDocsRaw = await getCollection('docs');
+
+function buildTree(docs) {
+    const tree = [];
+    docs.forEach(doc => {
+        const parts = doc.id.split('/');
+        let currentLevel = tree;
+        parts.forEach((part, index) => {
+            const isFile = index === parts.length - 1;
+            let node = currentLevel.find(n => n.name === part);
+            
+            if (!node) {
+                node = { name: part, isFile, doc: isFile ? doc : null, children: [] };
+                currentLevel.push(node);
+            } else if (isFile && !node.isFile) {
+                node.children.push({ name: 'index', isFile: true, doc: doc, children: [] });
+                return;
+            } else if (!isFile && node.isFile) {
+                node.isFile = false;
+                node.children.push({ name: 'index', isFile: true, doc: node.doc, children: [] });
+                node.doc = null;
+            }
+            
+            if (isFile && node.isFile) node.doc = doc;
+            currentLevel = node.children;
+        });
+    });
+
+    function sortTree(nodes) {
+        nodes.forEach(n => { 
+            if (n.children.length > 0) sortTree(n.children); 
+            if (!n.isFile) {
+                const indexNode = n.children.find(c => c.name.startsWith('index'));
+                n.inheritedOrder = indexNode ? (indexNode.doc?.data?.order || 0) : 0;
+            } else {
+                n.inheritedOrder = n.doc?.data?.order || 0;
+            }
+        });
+        
+        nodes.sort((a, b) => {
+            if (a.inheritedOrder !== b.inheritedOrder) return a.inheritedOrder - b.inheritedOrder;
+            // Folders before files
+            if (a.isFile !== b.isFile) return a.isFile ? 1 : -1;
+            return a.name.localeCompare(b.name);
+        });
+    }
+
+    sortTree(tree);
+    return tree;
+}
+const docsTree = buildTree(allDocsRaw);
+console.log("AST_ID_DUMP: ", allDocsRaw.map(d => d.id).join(' | '));
+
+function flattenDocs(nodes) {
+    let result = [];
+    nodes.forEach(n => {
+        if (n.doc) result.push(n.doc);
+        if (n.children.length > 0) result = result.concat(flattenDocs(n.children));
+    });
+    return result;
+}
+const allDocs = flattenDocs(docsTree);
+
+const { Content, headings } = await render(entry);
+
+const currentIndex = allDocs.findIndex(doc => doc.id === entry.id);
+const prevDoc = currentIndex > 0 ? allDocs[currentIndex - 1] : null;
+const nextDoc = currentIndex < allDocs.length - 1 ? allDocs[currentIndex + 1] : null;
+---
+
+<Layout title={`BERSERK_ARCH // DOCS // ${entry.data.title.toUpperCase()}`}>
+    <!-- Mobile Sidebar Trigger overlay -->
+    <div id="docs-mobile-overlay" class="fixed inset-0 bg-background/80 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+
+    <div class="flex min-h-[calc(100vh-80px)] items-start relative">
+        
+        <!-- Mobile Trigger Bar -->
+        <button id="mobile-sidebar-toggle" class="md:hidden fixed bottom-6 right-6 z-50 bg-primary text-background w-14 h-14 flex items-center justify-center shadow-[4px_4px_0_#000] border-2 border-outline-variant hover:bg-surface-container-highest hover:text-primary transition-colors">
+            <span class="material-symbols-outlined text-2xl" id="mobile-toggle-icon">menu_open</span>
+        </button>
+
+        <!-- Sidebar -->
+        <aside id="docs-sidebar" class="fixed inset-y-0 left-0 transform -translate-x-full md:translate-x-0 md:sticky md:top-[80px] h-screen md:h-[calc(100vh-80px)] flex flex-col pt-8 bg-surface-container-lowest md:bg-surface-container-low border-r-2 border-primary w-64 md:w-64 z-50 md:z-30 shrink-0 shadow-[4px_0_0_#000000] transition-transform duration-300 md:transition-all overflow-x-hidden group/sidebar">
+            <div class="px-6 mb-8 sidebar-header flex justify-between items-center">
+                <div>
+                    <h2 class="font-headline uppercase text-xs tracking-widest text-primary font-bold flex items-center gap-2">
+                        <span class="material-symbols-outlined text-sm">terminal</span>
+                        <span class="nav-text">DOCS_CORE</span>
+                    </h2>
+                    <p class="font-mono text-[10px] text-on-surface-variant mt-1 nav-text">v1.0.4_STABLE</p>
+                </div>
+                <button id="close-mobile-sidebar" class="md:hidden text-on-surface-variant hover:text-primary">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            
+            <nav class="flex-1 w-full overflow-y-auto overflow-x-hidden">
+                <div class="flex flex-col w-full pb-8">
+                {docsTree.map((node) => (
+                    <DocsSidebarNode node={node} currentPath={entry.id} depth={0} />
+                ))}
+                </div>
+            </nav>
+            
+            <div class="mt-auto border-t border-outline-variant bg-surface-container-lowest shrink-0 hidden md:block">
+                <button id="sidebar-toggle" class="w-full bg-transparent border-t-2 border-primary text-primary py-4 px-6 font-mono text-[10px] tracking-tighter hover:bg-primary hover:text-on-primary-fixed transition-colors flex items-center justify-between group outline-none overflow-hidden">
+                    <span class="font-bold nav-text whitespace-nowrap">TOGGLE_UI</span>
+                    <span id="toggle-icon" class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">chevron_left</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-full lg:flex-1 py-12 px-6 lg:px-12 xl:px-24">
+            <div class="max-w-4xl mx-auto space-y-16">
+                <!-- Hero Title -->
+                <section class="relative border-l-4 border-primary pl-6 py-4 reveal">
+                    <p class="font-mono text-primary text-sm mb-2 tracking-[0.3em] uppercase">SYSTEM_PATH // {entry.data.category || entry.id.split('/')[0]}</p>
+                    <h1 class="text-5xl md:text-7xl font-black tracking-tighter uppercase leading-none font-headline">
+                        {entry.data.title} <span class="text-outline-variant font-light">//</span> DOCS
+                    </h1>
+                    
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <div class="px-3 py-1 bg-surface-container border border-outline-variant text-[10px] font-mono text-on-surface-variant">KERNEL: 6.7.2-berserk</div>
+                        <div class="px-3 py-1 bg-surface-container border border-outline-variant text-[10px] font-mono text-on-surface-variant">STATUS: <span class="text-primary font-bold">STABLE</span></div>
+                        <div class="px-3 py-1 bg-surface-container border border-outline-variant text-[10px] font-mono text-on-surface-variant">ENCRYPTION: AES-256-GCM</div>
+                    </div>
+                </section>
+                
+                <!-- Mobile & Tablet TOC (Hidden on XL) -->
+                {headings.length > 0 && (
+                    <div class="xl:hidden bg-surface-container-lowest border-2 border-outline-variant p-6 reveal">
+                        <h3 class="font-headline font-bold text-primary text-xs uppercase tracking-widest mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-sm">list</span>
+                            ON THIS PAGE
+                        </h3>
+                        <nav class="flex flex-col gap-2">
+                            {headings.map((h) => (
+                                <a 
+                                    href={`#${h.slug}`} 
+                                    class={`toc-link block font-mono text-on-surface-variant hover:text-primary transition-colors line-clamp-2 ${h.depth === 2 ? 'text-xs font-bold' : h.depth === 3 ? 'text-[10px] ml-4' : h.depth >= 4 ? 'text-[10px] ml-8 opacity-70' : ''}`}
+                                >
+                                    {h.text}
+                                </a>
+                            ))}
+                        </nav>
+                    </div>
+                )}
+                
+                <!-- Content (MDX) -->
+                <div class="mdx-content">
+                    <Content />
+                </div>
+                
+                <!-- Pagination -->
+                <nav class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-24 border-t border-outline-variant/30 pt-8 reveal reveal-delay-200">
+                    {prevDoc ? (
+                        <a href={`/docs/${prevDoc.id}`} class="p-6 border border-outline-variant bg-surface-container-lowest hover:border-primary group transition-colors flex flex-col items-start text-left">
+                            <span class="font-mono text-[10px] text-on-surface-variant mb-2 group-hover:text-primary transition-colors">&lt; PREVIOUS</span>
+                            <span class="font-headline font-bold text-sm tracking-widest uppercase truncate w-full">{prevDoc.data.title}</span>
+                        </a>
+                    ) : <div></div>}
+                    
+                    {nextDoc ? (
+                        <a href={`/docs/${nextDoc.id}`} class="p-6 border border-outline-variant bg-surface-container-lowest hover:border-primary group transition-colors flex flex-col items-end text-right">
+                            <span class="font-mono text-[10px] text-on-surface-variant mb-2 group-hover:text-primary transition-colors">NEXT &gt;</span>
+                            <span class="font-headline font-bold text-sm tracking-widest uppercase truncate w-full">{nextDoc.data.title}</span>
+                        </a>
+                    ) : <div></div>}
+                </nav>
+            </div>
+        </main>
+        
+        <!-- Right TOC Sidebar (Desktop Only) -->
+        {headings.length > 0 && (
+            <aside class="sticky top-[80px] h-[calc(100vh-80px)] hidden xl:flex flex-col pt-12 pr-12 text-sm w-64 shrink-0 overflow-y-auto z-20">
+                <h3 class="font-headline font-bold text-primary text-[10px] uppercase tracking-widest mb-4">ON THIS PAGE</h3>
+                <nav class="border-l border-outline-variant/30 pl-4 py-2 flex flex-col gap-3">
+                    {headings.map((h) => (
+                        <a 
+                            href={`#${h.slug}`} 
+                            class={`toc-link block font-mono text-on-surface-variant hover:text-primary transition-colors line-clamp-2 ${h.depth === 2 ? 'text-xs font-bold' : h.depth === 3 ? 'text-[10px] ml-4' : h.depth >= 4 ? 'text-[10px] ml-8 opacity-70' : ''}`}
+                        >
+                            {h.text}
+                        </a>
+                    ))}
+                </nav>
+            </aside>
+        )}
+    </div>
+</Layout>
+
+<style>
+    /* Collapsed Sidebar Mechanics */
+    #docs-sidebar.collapsed {
+        width: 4.5rem; /* 72px */
+    }
+    #docs-sidebar.collapsed .nav-text {
+        opacity: 0;
+        visibility: hidden;
+        display: none;
+    }
+    #docs-sidebar.collapsed .nav-folder-btn {
+        pointer-events: none;
+        padding-left: 1.25rem;
+    }
+    #docs-sidebar.collapsed .nav-indented-block {
+        display: none;
+    }
+    #docs-sidebar.collapsed .px-6 {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+    }
+    #docs-sidebar.collapsed #toggle-icon {
+        transform: rotate(180deg);
+        margin: 0 auto;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggleBtn = document.getElementById('sidebar-toggle');
+        const sidebar = document.getElementById('docs-sidebar');
+        const overlay = document.getElementById('docs-mobile-overlay');
+        const mobileToggleBtn = document.getElementById('mobile-sidebar-toggle');
+        const mobileCloseBtn = document.getElementById('close-mobile-sidebar');
+        const toggleIcon = document.getElementById('toggle-icon');
+
+        // Desktop Toggle Mechanics
+        if (toggleBtn && sidebar && toggleIcon) {
+            function applyState(isCollapsed) {
+                if (window.innerWidth < 768) return; // Do not apply collapse classes on mobile mode
+                
+                if (isCollapsed) {
+                    sidebar.classList.add('collapsed');
+                    sidebar.classList.replace('md:w-64', 'md:w-[4.5rem]');
+                    toggleIcon.style.transform = 'rotate(180deg)';
+                } else {
+                    sidebar.classList.remove('collapsed');
+                    sidebar.classList.replace('md:w-[4.5rem]', 'md:w-64');
+                    toggleIcon.style.transform = 'rotate(0deg)';
+                }
+            }
+
+            const storedState = localStorage.getItem('berserk-docs-collapsed');
+            if (storedState === 'true') applyState(true);
+
+            toggleBtn.addEventListener('click', () => {
+                const willCollapse = !sidebar.classList.contains('collapsed');
+                localStorage.setItem('berserk-docs-collapsed', willCollapse);
+                applyState(willCollapse);
+            });
+        }
+        
+        // Mobile Toggle Mechanics
+        if (mobileToggleBtn && sidebar && overlay && mobileCloseBtn) {
+            function openMobile() {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            function closeMobile() {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }
+            
+            mobileToggleBtn.addEventListener('click', openMobile);
+            mobileCloseBtn.addEventListener('click', closeMobile);
+            overlay.addEventListener('click', closeMobile);
+        }
+
+        // Folder Collapse Mechanics
+        const folderBtns = document.querySelectorAll('.nav-folder-btn');
+        folderBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const contentRoot = btn.nextElementSibling;
+                const icon = btn.querySelector('.nav-folder-icon');
+                if (contentRoot && contentRoot.classList.contains('nav-folder-content')) {
+                    contentRoot.classList.toggle('hidden');
+                    if (contentRoot.classList.contains('hidden')) {
+                        icon.style.transform = 'rotate(0deg)';
+                    } else {
+                        icon.style.transform = 'rotate(180deg)';
+                    }
+                }
+            });
+        });
+
+        // TOC Active Scroll Sync
+        const tocLinks = document.querySelectorAll('.toc-link');
+        if (tocLinks.length > 0) {
+            const headings = Array.from(document.querySelectorAll('.mdx-content h2, .mdx-content h3, .mdx-content h4, .mdx-content h5, .mdx-content h6'));
+            
+            function updateActiveTOC() {
+                let current = '';
+                const scrollPos = window.scrollY + 140; 
+
+                for (const h of headings) {
+                    if (h.offsetTop <= scrollPos) {
+                        current = h.id;
+                    } else {
+                        break;
+                    }
+                }
+
+                if (!current && headings.length > 0) {
+                    current = headings[0].id;
+                }
+
+                tocLinks.forEach(link => {
+                    link.classList.remove('text-primary', 'font-black');
+                    link.classList.add('text-on-surface-variant');
+                    if (link.getAttribute('href') === `#${current}`) {
+                        link.classList.remove('text-on-surface-variant');
+                        link.classList.add('text-primary', 'font-black');
+                    }
+                });
+            }
+
+            window.addEventListener('scroll', updateActiveTOC, { passive: true });
+            setTimeout(updateActiveTOC, 100); 
+        }
+    });
+</script>

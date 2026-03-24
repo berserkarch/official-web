@@ -1,0 +1,63 @@
+---
+---
+<!-- Footer -->
+<footer class="bg-surface-container-lowest flex flex-col md:flex-row justify-between items-center w-full px-8 py-12 gap-4 border-t-2 border-primary/40">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="text-primary font-black uppercase tracking-widest font-['Space_Grotesk'] text-[0.75rem]">
+            BERSERK ARCH
+        </div>
+<div class="font-['Space_Grotesk'] text-[0.75rem] uppercase tracking-widest text-foreground">
+            v2.4.0-STRIKE | THE STRUGGLE CONTINUES
+        </div>
+</div>
+<div class="flex gap-8 font-['Space_Grotesk'] text-[0.75rem] uppercase tracking-widest font-bold">
+<a class="text-foreground hover:text-primary underline decoration-primary/40 decoration-2 transition-none" href="#">MANIFESTO</a>
+<a class="text-foreground hover:text-primary underline decoration-primary/40 decoration-2 transition-none" href="#">SOURCE</a>
+<a class="text-primary transition-none" href="#">TELEMETRY_VOID</a>
+</div>
+<div class="flex gap-4">
+<a class="text-primary hover:text-white transition-colors p-2 border border-primary/20 hover:border-primary" href="/rss.xml" target="_blank" rel="noopener noreferrer" title="Terminal Log RSS Feed">
+<span class="material-symbols-outlined">rss_feed</span>
+</a>
+<a class="text-primary hover:text-white transition-colors p-2 border border-primary/20 hover:border-primary" href="#">
+<span class="material-symbols-outlined" data-icon="terminal">terminal</span>
+</a>
+<a class="text-primary hover:text-white transition-colors p-2 border border-primary/20 hover:border-primary" href="#">
+<span class="material-symbols-outlined" data-icon="code">code</span>
+</a>
+</div>
+</footer>
+
+<div id="system-status-toast" class="fixed bottom-8 left-8 z-40 hidden lg:block transition-opacity duration-300">
+<div class="bg-surface-container-low border border-primary/40 p-3 flex flex-col gap-1 shadow-[0_0_15px_rgba(139,233,253,0.1)] relative pr-8">
+<button id="close-toast-btn" class="absolute top-1 right-1 text-primary/50 hover:text-primary transition-colors p-1 flex items-center justify-center w-5 h-5 cursor-pointer" title="Dismiss Status">
+<span class="material-symbols-outlined text-[8px] transform scale-[0.6] font-black">close</span>
+</button>
+<div class="flex items-center gap-2">
+<div class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse shadow-[0_0_5px_#8BE9FD]"></div>
+<span class="text-[10px] uppercase font-bold text-primary tracking-widest">SYSTEM_STABLE</span>
+</div>
+<span class="text-[9px] text-primary/70 font-mono">Uptime: <span id="uptime-counter">421 days, 04:22:11</span></span>
+</div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toast = document.getElementById('system-status-toast');
+        const closeBtn = document.getElementById('close-toast-btn');
+        
+        if (toast && closeBtn) {
+            if (localStorage.getItem('berserk-toast-dismissed') === 'true') {
+                toast.style.display = 'none';
+            }
+            
+            closeBtn.addEventListener('click', () => {
+                toast.style.opacity = '0';
+                setTimeout(() => {
+                    toast.style.display = 'none';
+                    localStorage.setItem('berserk-toast-dismissed', 'true');
+                }, 300);
+            });
+        }
+    });
+</script>

@@ -1,0 +1,146 @@
+---
+import ImageCard from "./ImageCard.astro";
+---
+
+<!-- Gallery Grid (Bento/Asymmetric) -->
+<section class="px-6 md:px-12 py-16 max-w-7xl mx-auto">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+    <!-- Main Feature Screenshot -->
+    <div
+      class="reveal md:col-span-8 group relative bg-surface-container overflow-hidden border border-primary/20 hover:border-primary transition-colors"
+    >
+      <img
+        alt="Gritty dark terminal setup with cyan coding highlights"
+        class="w-full h-auto object-fit filter grayscale-60 group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100"
+        data-alt="berserk arch xfce edition"
+        src="/assets/images/berserkarch.png"
+      />
+      <div
+        class="absolute bottom-0 left-0 p-6 bg-surface/90 backdrop-blur-sm w-full md:w-auto border-t md:border-t-0 md:border-r border-primary"
+      >
+        <div class="flex flex-col gap-1">
+          <span
+            class="text-xs font-mono text-primary font-bold tracking-widest uppercase"
+            >WORKSPACE_01 / XFCE</span
+          >
+          <span class="text-on-surface text-lg font-bold tracking-tighter"
+            >THE BLACK SWORDSMAN UI</span
+          >
+        </div>
+      </div>
+    </div>
+    <!-- Technical Specs Block -->
+    <div
+      class="reveal reveal-delay-100 md:col-span-4 bg-primary-container p-8 flex flex-col justify-between border-2 border-primary"
+    >
+      <div>
+        <span
+          class="material-symbols-outlined text-4xl mb-6 text-primary"
+          style="font-variation-settings: 'FILL' 1;">memory</span
+        >
+        <h3
+          class="text-2xl font-black uppercase tracking-tighter leading-none mb-4 text-on-primary-container"
+        >
+          PRE_CONFIGURED_DE
+        </h3>
+        <div
+          class="space-y-3 font-mono text-xs uppercase tracking-tighter text-primary"
+        >
+          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
+            <span>01:</span>
+            <span class="text-on-primary-container font-bold">XFCE</span>
+          </p>
+          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
+            <span>02:</span>
+            <span class="text-on-primary-container font-bold">OPENBOX</span>
+          </p>
+          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
+            <span>03:</span>
+            <span class="text-on-primary-container font-bold">GNOME</span>
+          </p>
+          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
+            <span>04:</span>
+            <span class="text-on-primary-container font-bold">KDE</span>
+          </p>
+        </div>
+      </div>
+      <button
+        class="mt-8 bg-primary text-on-primary font-black py-4 px-6 text-sm tracking-widest uppercase hover:bg-white transition-colors duration-150 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
+      >
+        DOWNLOAD
+      </button>
+    </div>
+    <!-- Secondary Screenshots -->
+    <ImageCard
+      class="reveal"
+      imgSrc="/assets/images/berserkarch.png"
+      imgAlt="Monochrome code on a high resolution display"
+      labelId="02_SYS"
+      title="DOTFILES / STOW"
+    />
+    <ImageCard
+      class="reveal reveal-delay-100"
+      imgSrc="/assets/images/hyprland.png"
+      imgAlt="Vim editor with customized dark theme"
+      labelId="03_IDE"
+      title="NVIM / LUA_CORE"
+    />
+    <ImageCard
+      class="reveal reveal-delay-200"
+      imgSrc="/assets/images/hyprland.png"
+      imgAlt="Terminal window showing system resources"
+      labelId="04_MON"
+      title="BTOP / THE_ECLIPSE"
+    />
+    <!-- Wide Display Block -->
+    <div
+      class="reveal md:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-surface-container-low p-8 border border-primary/30"
+    >
+      <div class="order-2 md:order-1">
+        <div class="flex items-center gap-2 mb-4">
+          <span
+            class="material-symbols-outlined text-primary"
+            style="font-variation-settings: 'FILL' 1;">terminal</span
+          >
+          <span
+            class="font-mono text-xs text-primary uppercase tracking-[0.3em] font-black"
+            >SHELL_ACCESS</span
+          >
+        </div>
+        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">
+          BORN IN THE DARKNESS.
+        </h2>
+        <p
+          class="text-on-surface-variant mb-6 text-sm leading-relaxed max-w-lg"
+        >
+          BERSERK ARCH environments aren't just for show. They represent a
+          philosophy of total control over the machine. Every pixel of the gap,
+          every border color, every character spacing is forged in the fires of
+          the config.
+        </p>
+        <div class="flex gap-4">
+          <button
+            class="border-2 border-primary px-6 py-2 hover:bg-primary hover:text-on-primary transition-none font-mono text-xs uppercase font-bold text-primary"
+            >VIEW_ALL</button
+          >
+          <button
+            class="border-2 border-primary px-6 py-2 hover:bg-primary hover:text-on-primary transition-none font-mono text-xs uppercase font-bold text-primary"
+            >SUBMIT_SETUP</button
+          >
+        </div>
+      </div>
+      <div class="order-1 md:order-2">
+        <div
+          class="aspect-video bg-surface-container-highest overflow-hidden relative border border-primary"
+        >
+          <img
+            alt="Digital circuitry with cyan glowing lines"
+            class="w-full h-full object-cover opacity-100"
+            data-alt="Digital circuitry with cyan glowing lines"
+            src="/assets/images/kde.png"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

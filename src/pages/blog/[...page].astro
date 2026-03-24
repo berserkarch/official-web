@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths({ paginate }) {
+    const rawPosts = await getCollection('blog');
+    const sortedPosts = rawPosts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+    return paginate(sortedPosts, { pageSize: 5 });
+}
+
+const { page } = Astro.props;
+const posts = page.data;
+---
+
+<Layout title="BERSERK_ARCH // ARCHIVE.LOG">
+    <div class="flex w-full items-start">
+        <!-- SideNavBar (Desktop Only) -->
+        <aside class="sticky top-20 left-0 h-[calc(100vh-80px)] hidden lg:flex flex-col py-4 bg-surface-container-low w-64 border-r-2 border-primary shadow-[4px_0_0_#000000] z-40 shrink-0">
+            <div class="px-6 mb-8">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="w-10 h-10 bg-primary-container flex items-center justify-center">
+                        <span class="material-symbols-outlined text-on-primary">person</span>
+                    </div>
+                    <div>
+                        <div class="text-primary font-bold font-mono text-xs uppercase tracking-widest">ROOT_USER</div>
+                        <div class="text-on-surface-variant font-mono text-[10px]">127.0.0.1</div>
+                    </div>
+                </div>
+                <button class="w-full bg-surface-container-low border border-primary text-primary py-2 font-mono text-xs uppercase tracking-widest hover:bg-primary hover:text-on-primary active:scale-95 transition-all">
+                    &gt; EXECUTE_UPDATE
+                </button>
+            </div>
+            <nav class="flex flex-col">
+                <a class="px-6 py-4 flex items-center gap-4 bg-primary text-on-primary-fixed font-bold font-mono text-xs uppercase tracking-widest" href="/blog">
+                    <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">article</span>
+                    LATEST
+                </a>
+                <a class="px-6 py-4 flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high font-mono text-xs uppercase tracking-widest transition-none" href="#">
+                    <span class="material-symbols-outlined">memory</span>
+                    KERNEL
+                </a>
+                <a class="px-6 py-4 flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high font-mono text-xs uppercase tracking-widest transition-none" href="#">
+                    <span class="material-symbols-outlined">developer_board</span>
+                    DRIVERS
+                </a>
+                <a class="px-6 py-4 flex items-center gap-4 text-on-surface-variant hover:bg-surface-container-high font-mono text-xs uppercase tracking-widest transition-none" href="#">
+                    <span class="material-symbols-outlined">shield</span>
+                    SECURITY
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-full lg:flex-1 pt-32 pb-12 px-6 max-w-7xl mx-auto reveal reveal-delay-100">
+            <div class="flex items-baseline justify-between mb-12 border-b-2 border-surface-container-highest pb-4">
+                <h1 class="text-5xl font-black tracking-tighter uppercase font-headline">Archive.LOG</h1>
+                <div class="font-mono text-primary text-xs tracking-widest hidden sm:block">[ STATUS: OPERATIONAL ]</div>
+            </div>
+            
+            <div class="grid grid-cols-1 gap-12">
+                {posts.map((post) => (
+                    <article class="relative bg-surface-container-low p-1 border-l-4 border-primary group reveal hover:-translate-y-1 transition-transform duration-300 hover:shadow-[0_10px_30px_-15px_rgba(139,233,253,0.2)]">
+                        <div class="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-primary hidden lg:block"></div>
+                        <div class="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-primary hidden lg:block"></div>
+                        
+                        <div class="p-6 bg-surface-container">
+                            <div class="flex flex-wrap items-center gap-4 mb-4 font-mono text-[10px] tracking-widest">
+                                <span class="bg-primary text-on-primary-fixed px-2 font-bold py-0.5">
+                                    {post.data.pubDate.toISOString().split('T')[0]}
+                                </span>
+                                <span class="text-on-surface-variant">AUTHOR: <span class="text-primary">{post.data.author}</span></span>
+                                <span class="text-on-surface-variant">CAT: <span class="text-primary">{post.data.tags ? post.data.tags[0] : 'SYS_LOG'}</span></span>
+                            </div>
+                            
+                            <h2 class="text-3xl font-bold uppercase mb-4 group-hover:text-primary transition-colors duration-150 font-headline">
+                                <a href={`/blog/${post.id}`}>{post.data.title}</a>
+                            </h2>
+                            
+                            <p class="text-on-surface-variant mb-6 leading-relaxed max-w-3xl">
+                                {post.data.description}
+                            </p>
+                            
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div class="flex flex-wrap gap-2">
+                                    {post.data.tags?.map(tag => (
+                                        <a href={`/blog/tags/${tag}`} class="text-[10px] font-mono border border-outline-variant px-2 py-0.5 text-on-surface-variant hover:text-primary hover:border-primary transition-colors cursor-pointer">#{tag}</a>
+                                    ))}
+                                </div>
+                                <a class="font-mono text-sm text-primary flex shrink-0 items-center gap-2 hover:underline font-bold" href={`/blog/${post.id}`}>
+                                    &gt; VIEW_FULL_REPORT
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                ))}
+            </div>
+            
+            <!-- Pagination -->
+            <nav class="flex items-center justify-center gap-4 mt-16 reveal reveal-delay-200">
+                {page.url.prev ? (
+                    <a href={page.url.prev} class="w-10 h-10 border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary-fixed transition-colors">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </a>
+                ) : (
+                    <span class="w-10 h-10 border border-surface-container-highest text-on-surface-variant flex items-center justify-center opacity-50 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </span>
+                )}
+                
+                <button class="w-10 h-10 bg-primary text-on-primary-fixed flex items-center justify-center font-mono font-bold">{page.currentPage}</button>
+                <div class="text-on-surface-variant font-mono text-xs">/ {page.lastPage}</div>
+
+                {page.url.next ? (
+                    <a href={page.url.next} class="w-10 h-10 border border-primary text-primary flex items-center justify-center hover:bg-primary hover:text-on-primary-fixed transition-colors">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </a>
+                ) : (
+                    <span class="w-10 h-10 border border-surface-container-highest text-on-surface-variant flex items-center justify-center opacity-50 cursor-not-allowed">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </span>
+                )}
+            </nav>
+        </main>
+    </div>
+</Layout>

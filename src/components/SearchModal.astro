@@ -1,0 +1,154 @@
+---
+// Global Search Modal Architecture
+---
+
+<div id="search-modal" class="fixed inset-0 z-[100] bg-background/90 backdrop-blur-sm hidden flex-col items-center justify-start pt-24 px-4 transition-all">
+    <div class="w-full max-w-2xl bg-surface-container-lowest border-2 border-primary shadow-[0_0_30px_rgba(var(--color-primary),0.15)] flex flex-col relative" id="search-container">
+        <!-- Close Button -->
+        <button id="close-search" class="absolute right-4 top-5 text-primary/50 hover:text-primary transition-colors cursor-pointer">
+            <span class="material-symbols-outlined text-2xl">close</span>
+        </button>
+        
+        <!-- Search Input -->
+        <div class="px-6 py-5 border-b-2 border-primary/30 flex items-center gap-4 bg-surface-container/50">
+            <span class="material-symbols-outlined text-primary text-2xl">search</span>
+            <input type="text" id="search-input" placeholder="SEARCH SYSTEM [CTRL+K]..." class="w-full bg-transparent border-none outline-none text-xl font-mono text-white placeholder-primary/40 focus:ring-0" autocomplete="off" spellcheck="false" />
+        </div>
+        
+        <!-- Results Container -->
+        <div id="search-results" class="max-h-[60vh] overflow-y-auto flex flex-col font-mono bg-surface-container-lowest">
+            <!-- Matches populate here via JS -->
+            <div class="p-8 text-center text-primary/40 text-sm tracking-widest font-bold">AWAITING INPUT QUERY...</div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="px-6 py-3 border-t border-primary/20 bg-surface-container flex justify-between items-center text-[10px] text-primary/60 font-bold uppercase tracking-widest">
+            <span><strong class="text-primary border border-primary/30 px-1 py-0.5 rounded-sm mr-1">ESC</strong> TO CLOSE</span>
+            <span>LOCAL INDEX: <span class="text-white">STANDBY</span></span>
+        </div>
+    </div>
+</div>
+
+<script is:inline>
+    // Execution contained directly in final AST to prevent client-side hydration issues
+    let searchIndex = [];
+    let isIndexLoaded = false;
+    
+    // UI DOM Nodes
+    const searchModal = document.getElementById('search-modal');
+    const searchInput = document.getElementById('search-input');
+    const searchResults = document.getElementById('search-results');
+    const closeBtn = document.getElementById('close-search');
+    const statusText = document.querySelector('#search-container .text-white');
+    
+    // Core Engine
+    const loadIndex = async () => {
+        if (isIndexLoaded) return;
+        try {
+            statusText.innerText = "FETCHING...";
+            statusText.classList.add('text-[yellow]');
+            
+            const res = await fetch('/api/search.json');
+            searchIndex = await res.json();
+            
+            isIndexLoaded = true;
+            statusText.innerText = "ACTIVE";
+            statusText.classList.remove('text-[yellow]');
+            statusText.classList.add('text-[lime]');
+        } catch (e) {
+            console.error('System Failure: Search Core Dump Offline.');
+            statusText.innerText = "OFFLINE";
+            statusText.classList.add('text-[red]');
+        }
+    };
+    
+    const toggleSearch = () => {
+        if (searchModal.classList.contains('hidden')) {
+            searchModal.classList.remove('hidden');
+            searchModal.classList.add('flex');
+            searchInput.focus();
+            loadIndex();
+            document.body.style.overflow = 'hidden'; // Lock background scrolling
+        } else {
+            searchModal.classList.add('hidden');
+            searchModal.classList.remove('flex');
+            searchInput.value = '';
+            renderResults('', []);
+            document.body.style.overflow = ''; 
+        }
+    };
+    
+    // Export globally for Navbar onclick execution
+    window.toggleGlobalSearch = toggleSearch;
+    
+    // Event Mapping
+    closeBtn.addEventListener('click', toggleSearch);
+    
+    searchModal.addEventListener('click', (e) => {
+        // Destroy modal if clicking background wrapper
+        if (e.target === searchModal) toggleSearch();
+    });
+    
+    document.addEventListener('keydown', (e) => {
+        // [CTRL+K] / [CMD+K] Binding
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            toggleSearch();
+        }
+        
+        // Escape Binding
+        if (e.key === 'Escape' && !searchModal.classList.contains('hidden')) {
+            toggleSearch();
+        }
+        
+        // Rapid Forward-Slash binding (Vim style)
+        if (e.key === '/' && searchModal.classList.contains('hidden') && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            toggleSearch();
+        }
+    });
+    
+    // Search Execution Pipeline
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase().trim();
+        
+        if (query.length < 2) {
+            renderResults('', []);
+            return;
+        }
+        
+        // Mathematical regex filtering
+        const results = searchIndex.filter(item => {
+            return item.title.toLowerCase().includes(query) ||
+                   item.body.toLowerCase().includes(query) ||
+                   item.tags.some(t => t.toLowerCase().includes(query));
+        }).slice(0, 15); // Return absolute top 15 matches strictly
+        
+        renderResults(query, results);
+    });
+    
+    // Render Payload
+    const renderResults = (query, results) => {
+        if (!query) {
+            searchResults.innerHTML = '<div class="p-8 text-center text-primary/40 text-sm tracking-widest font-bold">AWAITING INPUT QUERY...</div>';
+            return;
+        }
+        
+        if (results.length === 0) {
+            searchResults.innerHTML = '<div class="p-8 text-center text-[red] text-sm tracking-widest font-bold border-l-4 border-[red]">0X00 - NO REGEX MATCHES FOUND IN CORE STORAGE.</div>';
+            return;
+        }
+        
+        const html = results.map(item => `
+            <a href="${item.slug}" class="block p-5 border-b border-primary/10 hover:bg-primary/10 hover:border-l-4 hover:border-l-primary transition-all group outline-none focus:bg-primary/20">
+                <div class="flex justify-between items-center mb-2">
+                    <span class="font-bold text-white group-hover:text-primary transition-colors text-base">${item.title}</span>
+                    <span class="text-[9px] px-2 py-0.5 bg-primary/10 text-primary uppercase tracking-wider font-bold">${item.type}</span>
+                </div>
+                <p class="text-on-surface-variant text-xs pr-8 leading-relaxed opacity-80 group-hover:opacity-100">${item.body}</p>
+            </a>
+        `).join('');
+        
+        searchResults.innerHTML = html;
+    };
+</script>

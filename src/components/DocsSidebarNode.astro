@@ -1,0 +1,42 @@
+---
+import DocsSidebarNode from './DocsSidebarNode.astro';
+
+const { node, currentPath, depth = 0 } = Astro.props;
+const isFile = node.isFile;
+const isActive = isFile && node.doc && node.doc.id === currentPath;
+
+const isL1 = depth === 0;
+const isL2 = depth === 1;
+const isL3 = depth >= 2;
+
+function checkActive(n) {
+    if (n.isFile && n.doc && n.doc.id === currentPath) return true;
+    if (n.children && Array.isArray(n.children)) {
+        return n.children.some(child => checkActive(child));
+    }
+    return false;
+}
+const folderContainsActivePath = !isFile && checkActive(node);
+---
+
+{isFile ? (
+    <a href={`/docs/${node.doc.id}`} class={`${isActive ? 'bg-primary text-on-primary-fixed font-bold border-primary' : 'text-on-surface-variant hover:bg-surface-container-highest hover:text-primary border-transparent'} ${isL1 ? 'px-6 py-4' : isL2 ? 'py-3 pr-6 pl-12' : 'py-2 pl-4 pr-6'} flex items-center gap-3 font-headline uppercase ${isL1 ? 'text-xs' : isL2 ? 'text-[11px]' : 'text-[10px]'} tracking-widest transition-colors w-full border-l-4`} title={node.doc?.data?.title || node.name}>
+        <span class={`material-symbols-outlined shrink-0 nav-icon ${isL1 || isL2 ? 'text-sm' : 'text-xs'}`}>{node.doc?.data?.icon || (isL1 ? 'article' : isL2 ? 'subdirectory_arrow_right' : 'adjust')}</span>
+        <span class="nav-text break-words leading-tight">{node.doc?.data?.title || node.name.replace('.md', '').replace('.mdx', '')}</span>
+    </a>
+) : (
+    <div class={`flex flex-col w-full ${isL1 ? 'mt-2' : 'mt-1 mb-2'}`}>
+        <button class={`w-full text-left ${isL1 ? 'px-6 py-3' : isL2 ? 'pl-12 pr-6 py-2' : 'pl-4 pr-6 py-1.5'} ${isL1 ? 'text-primary/60 hover:text-primary text-[10px]' : 'text-on-surface-variant/50 hover:text-on-surface-variant text-[9px]'} font-bold font-mono tracking-widest transition-colors mb-2 flex justify-between items-center group/${depth} nav-folder-btn border-l-4 border-transparent`}>
+            <div class="flex items-center gap-4">
+                <span class={`material-symbols-outlined shrink-0 nav-icon text-center ${isL1 ? 'text-lg w-6' : 'text-sm w-4'}`} style="font-variation-settings: 'FILL' 1;">{isL1 ? 'folder' : 'folder_open'}</span>
+                <span class="nav-text break-words leading-tight uppercase">{node.name.replace('.md', '').replace('.mdx', '')}</span>
+            </div>
+            <span class={`material-symbols-outlined text-[10px] nav-text opacity-50 group-hover/${depth}:opacity-100 transition-transform duration-200 nav-folder-icon`} style={`transform: rotate(${folderContainsActivePath ? '180deg' : '0deg'});`}>expand_more</span>
+        </button>
+        <div class={`flex flex-col w-full nav-indented-block nav-folder-content ${folderContainsActivePath ? '' : 'hidden'} ${depth === 0 ? '' : depth === 1 ? 'border-l border-outline-variant/30 ml-14 pl-1' : 'border-l border-outline-variant/30 ml-6 pl-1'}`}>
+            {node.children.map(child => (
+                <DocsSidebarNode node={child} currentPath={currentPath} depth={depth + 1} />
+            ))}
+        </div>
+    </div>
+)}
