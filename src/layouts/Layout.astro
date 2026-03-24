@@ -1,101 +1,121 @@
 ---
-import '../styles/global.css';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import SearchModal from '../components/SearchModal.astro';
+import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import SearchModal from "../components/SearchModal.astro";
 
 interface Props {
-	title?: string;
-	description?: string;
-	image?: string;
-	type?: string;
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: string;
 }
 
-const { 
-	title = "BERSERK_ARCH | BUILT FOR THOSE WHO DON'T BREAK",
-	description = "Berserk Arch - The ultimate pure brutalist Arch Linux distribution designed natively for terminal power users.",
-	image = "/og-image.jpg",
-	type = "website"
+const {
+  title = "BERSERK_ARCH | CYBERSECURITY & DEVELOPMENT READY LINUX DISTRO",
+  description = "Berserk Arch - A bleeding-edge, Arch-based Linux distribution crafted for hackers, developers, and nerds alike.",
+  image = "/og-image.jpg",
+  type = "website",
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://berserkarch.org');
+const canonicalURL = new URL(
+  Astro.url.pathname,
+  Astro.site || "https://berserkarch.org",
+);
 ---
 
 <!doctype html>
 <html lang="en" class="dark">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		
-		<!-- Primary Meta Tags -->
-		<title>{title}</title>
-		<meta name="title" content={title} />
-		<meta name="description" content={description} />
-		<link rel="canonical" href={canonicalURL} />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
 
-		<!-- Open Graph / Facebook -->
-		<meta property="og:type" content={type} />
-		<meta property="og:url" content={canonicalURL} />
-		<meta property="og:title" content={title} />
-		<meta property="og:description" content={description} />
-		<meta property="og:image" content={new URL(image, canonicalURL)} />
+    <!-- Primary Meta Tags -->
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
 
-		<!-- Twitter -->
-		<meta property="twitter:card" content="summary_large_image" />
-		<meta property="twitter:url" content={canonicalURL} />
-		<meta property="twitter:title" content={title} />
-		<meta property="twitter:description" content={description} />
-		<meta property="twitter:image" content={new URL(image, canonicalURL)} />
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100..800&display=swap" rel="stylesheet"/>
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-        <style>
-            .material-symbols-outlined {
-                font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, canonicalURL)} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, canonicalURL)} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@100..800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+    </style>
+
+    <!-- Global Telemetry (Google Analytics 4) -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-BERSERKARCH"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-BERSERKARCH");
+    </script>
+  </head>
+  <body
+    class="selection:bg-primary-container selection:text-white bg-background text-foreground"
+    style="font-family: 'Space Grotesk', monospace;"
+  >
+    <Navbar />
+    <SearchModal />
+    <slot />
+    <Footer />
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const observerOptions = {
+          root: null,
+          rootMargin: "0px",
+          threshold: 0.02,
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("active");
+              // Strip delay after animation to prevent hover stickiness
+              setTimeout(() => {
+                entry.target.style.transitionDelay = "0ms";
+              }, 800);
+              observer.unobserve(entry.target);
             }
-        </style>
-        
-        <!-- Global Telemetry (Google Analytics 4) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-BERSERKARCH"></script>
-        <script is:inline>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-BERSERKARCH');
-        </script>
-	</head>
-	<body class="selection:bg-primary-container selection:text-white bg-background text-foreground" style="font-family: 'Space Grotesk', monospace;">
-		<Navbar />
-		<SearchModal />
-		<slot />
-		<Footer />
-        <script>
-            document.addEventListener('DOMContentLoaded', () => {
-                const observerOptions = {
-                    root: null,
-                    rootMargin: '0px',
-                    threshold: 0.02
-                };
+          });
+        }, observerOptions);
 
-                const observer = new IntersectionObserver((entries, observer) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('active');
-                            // Strip delay after animation to prevent hover stickiness
-                            setTimeout(() => {
-                                entry.target.style.transitionDelay = '0ms';
-                            }, 800);
-                            observer.unobserve(entry.target);
-                        }
-                    });
-                }, observerOptions);
-
-                const revealElements = document.querySelectorAll('.reveal');
-                revealElements.forEach(el => observer.observe(el));
-            });
-        </script>
-	</body>
+        const revealElements = document.querySelectorAll(".reveal");
+        revealElements.forEach((el) => observer.observe(el));
+      });
+    </script>
+  </body>
 </html>

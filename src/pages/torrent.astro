@@ -1,0 +1,261 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+const file = "torrent";
+---
+
+<Layout
+  title="Berserk Arch | Downloads"
+  description="Download the latest BerserkArch ISO"
+>
+  <style>
+    .guts-ghost {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 25vw;
+      color: #131313;
+      z-index: -1;
+      font-weight: 900;
+      letter-spacing: -0.05em;
+      pointer-events: none;
+      user-select: none;
+      font-family: "Space Grotesk", sans-serif;
+    }
+    .terminal-glow {
+      box-shadow: 0 0 28px rgba(139, 233, 253, 0.12);
+    }
+    @keyframes blink {
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0;
+      }
+    }
+    .cursor-blink {
+      animation: blink 1s step-end infinite;
+    }
+  </style>
+
+  <div class="guts-ghost" aria-hidden="true">GUTS</div>
+
+  <main
+    class="min-h-screen pt-32 pb-32 flex flex-col items-center justify-center px-6 relative"
+  >
+    <div class="max-w-4xl w-full relative p-1">
+      <!-- Crosshair corner decorations -->
+      <div
+        class="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-primary pointer-events-none"
+      >
+      </div>
+      <div
+        class="absolute top-0 right-0 w-8 h-8 border-t-2 border-r-2 border-primary pointer-events-none"
+      >
+      </div>
+      <div
+        class="absolute bottom-0 left-0 w-8 h-8 border-b-2 border-l-2 border-primary pointer-events-none"
+      >
+      </div>
+      <div
+        class="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-primary pointer-events-none"
+      >
+      </div>
+
+      <div
+        class="bg-surface-container border border-outline-variant p-8 md:p-12 terminal-glow"
+      >
+        <!-- Hero header -->
+        <div class="mb-12">
+          <p
+            class="font-mono text-xs tracking-[0.3em] text-on-surface-variant uppercase mb-3"
+          >
+            SYSTEM_REQUISITION
+          </p>
+          <h1
+            class="text-4xl md:text-5xl font-black tracking-tighter text-primary leading-none uppercase"
+          >
+            BERSERK_ISO<span
+              class="text-on-surface-variant font-mono text-2xl align-top mt-1 ml-1"
+              >_latest</span
+            >
+          </h1>
+        </div>
+
+        <!-- Progress section -->
+        <div class="space-y-3 mb-12">
+          <div
+            class="flex justify-between items-end font-mono text-primary text-sm"
+          >
+            <span>
+              INITIATING_BITSTREAM_TRANSFER<span class="cursor-blink">_</span>
+            </span>
+            <span class="text-2xl font-bold" id="pct-label">0%</span>
+          </div>
+
+          <!-- Segmented brutalist progress bar -->
+          <div
+            class="w-full bg-surface-container-highest h-12 flex items-center px-1 border border-primary/30"
+          >
+            <div class="flex w-full h-8 gap-[3px]" id="seg-container">
+              {
+                Array.from({ length: 19 }).map((_, i) => (
+                  <div
+                    class="flex-1 border border-primary/20 segment-block"
+                    data-index={i}
+                  />
+                ))
+              }
+            </div>
+          </div>
+
+          <p
+            class="font-mono text-[10px] tracking-[0.25em] text-on-surface-variant uppercase"
+            id="status-line"
+          >
+            RESOLVING_MIRROR_NODES...
+          </p>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <a
+            href="/docs"
+            class="w-full bg-primary text-on-primary font-bold uppercase tracking-widest py-4 border-2 border-primary hover:bg-primary/80 transition-colors flex items-center justify-center gap-2 text-sm"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="square"
+              ><path
+                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+              ></path><polyline points="14 2 14 8 20 8"></polyline><line
+                x1="16"
+                y1="13"
+                x2="8"
+                y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg
+            >
+            READ_DOCUMENTATION
+          </a>
+
+          <a
+            href="/"
+            class="w-full bg-transparent text-primary font-bold uppercase tracking-widest py-4 border-2 border-primary hover:bg-primary/10 transition-colors flex items-center justify-center gap-2 text-sm"
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="square"
+              ><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
+              ></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg
+            >
+            RETURN_TO_SYSTEM_HOME
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decorative line -->
+    <div
+      class="mt-12 flex flex-col items-center gap-2 opacity-30"
+      aria-hidden="true"
+    >
+      <div class="w-px h-16 bg-linear-to-b from-primary to-transparent"></div>
+      <p class="font-mono text-[9px] tracking-[0.4em] text-primary uppercase">
+        ENCRYPTED_TUNNEL_ACTIVE
+      </p>
+    </div>
+  </main>
+
+  <script define:vars={{ file }}>
+    const PRIMARY = "#8be9fd";
+    const segments = Array.from(document.querySelectorAll(".segment-block"));
+    const pctLabel = document.getElementById("pct-label");
+    const statusLine = document.getElementById("status-line");
+    const TOTAL = segments.length;
+    const TARGET = Math.round(TOTAL * 0.64);
+
+    const STATUSES = [
+      "RESOLVING_MIRROR_NODES...",
+      "AUTHENTICATING_HASH_SEED...",
+      "ESTABLISHING_SECURE_CHANNEL...",
+      "FETCHING_MANIFEST...",
+      "ACQUIRING_DOWNLOAD_LINK...",
+    ];
+    let statusIdx = 0;
+    let filled = 0;
+    let cancelled = false;
+
+    function fillSegment(el, color) {
+      el.style.backgroundColor = color;
+      el.style.border = "none";
+    }
+
+    const fillInterval = setInterval(() => {
+      if (filled < TARGET) {
+        fillSegment(segments[filled], PRIMARY);
+        filled++;
+        if (pctLabel)
+          pctLabel.textContent = Math.round((filled / TOTAL) * 100) + "%";
+      } else {
+        clearInterval(fillInterval);
+      }
+    }, 80);
+
+    const statusInterval = setInterval(() => {
+      statusIdx = (statusIdx + 1) % STATUSES.length;
+      if (statusLine) statusLine.textContent = STATUSES[statusIdx];
+    }, 900);
+
+    document.getElementById("cancel-btn")?.addEventListener("click", () => {
+      cancelled = true;
+      clearInterval(fillInterval);
+      clearInterval(statusInterval);
+      if (statusLine) statusLine.textContent = "REQUISITION_CANCELLED.";
+      if (pctLabel) pctLabel.textContent = "--";
+      window.location.href = "/";
+    });
+
+    (async () => {
+      try {
+        const res = await fetch(`https://iso.berserkarch.xyz/${file}.txt`, {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const link = (await res.text()).trim();
+        if (!/^https?:\/\//.test(link)) throw new Error("Invalid URL");
+
+        clearInterval(fillInterval);
+        clearInterval(statusInterval);
+        for (let i = filled; i < TOTAL; i++) fillSegment(segments[i], PRIMARY);
+        if (pctLabel) pctLabel.textContent = "100%";
+        if (statusLine)
+          statusLine.textContent = "TRANSFER_CONFIRMED — REDIRECTING...";
+
+        if (!cancelled)
+          setTimeout(() => {
+            window.location.href = link;
+          }, 600);
+      } catch (err) {
+        console.error("Redirect failed:", err);
+        clearInterval(fillInterval);
+        clearInterval(statusInterval);
+        segments.forEach((s) => fillSegment(s, "#ff5555"));
+        if (pctLabel) pctLabel.textContent = "ERR";
+        if (statusLine)
+          statusLine.textContent =
+            "MIRROR_UNREACHABLE — MANUAL_INTERVENTION_REQUIRED.";
+      }
+    })();
+  </script>
+</Layout>
