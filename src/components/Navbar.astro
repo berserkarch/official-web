@@ -1,44 +1,98 @@
 ---
 const { pathname } = Astro.url;
-const isBlog = pathname.startsWith('/blog');
-const isGallery = pathname.startsWith('/gallery');
-const isDocs = pathname.startsWith('/docs');
+const isBlog = pathname.startsWith("/blog");
+const isGallery = pathname.startsWith("/gallery");
+const isDocs = pathname.startsWith("/docs");
 ---
-<nav class="bg-background flex justify-between items-center w-full px-6 py-4 max-w-none sticky top-0 z-50 border-b border-primary/10">
-<div class="flex items-center">
-<a href="/" class="text-2xl font-black tracking-[-0.05em] text-primary border-l-4 border-primary pl-3">BERSERK ARCH</a>
-</div>
-        <div class="hidden lg:flex items-center gap-8 font-mono text-[11px] font-bold uppercase tracking-widest">
-            <a class={`transition-none ${pathname === '/' ? 'nav-link-active' : 'nav-link'}`} href="/">SYSTEM_CORE</a>
-            <a class={`transition-none ${isDocs ? 'nav-link-active' : 'nav-link'}`} href="/docs">DOCS</a>
-            <a class={`transition-none ${isGallery ? 'nav-link-active' : 'nav-link'}`} href="/gallery">GALLERY</a>
-            <a class={`transition-none ${isBlog ? 'nav-link-active' : 'nav-link'}`} href="/blog">BLOG</a>
-            <a class="nav-link transition-none" target="_blank" rel="noopener noreferrer" href="https://github.com/berserkarch">SOURCE</a>
-        </div>
-        
-        <!-- Action Terminal Headers (Global Right) -->
-        <div class="flex items-center gap-2">
-            <!-- Global Search Execution -->
-            <button onclick="window.toggleGlobalSearch()" class="flex items-center justify-center p-2 border border-primary/20 hover:border-primary/50 hover:bg-primary/20 text-primary transition-none outline-none cursor-pointer" title="Execute Search [Ctrl+K]">
-                <span class="material-symbols-outlined text-[18px]">search</span>
-            </button>
-            
-            <!-- Mobile Terminal Action Menu -->
-            <div class="relative group inline-block lg:hidden">
-                <div class="flex items-center text-primary hover:bg-primary/20 p-2 transition-none cursor-pointer border border-primary/20 outline-none" tabindex="0">
-                    <span class="material-symbols-outlined text-[18px]" data-icon="terminal">terminal</span>
-                </div>
-                <div id="mobile-menu" class="hidden flex-col bg-surface-container-low border-b-2 border-primary w-screen absolute top-[54px] -right-6 shadow-[0_4px_15px_rgba(0,0,0,0.8)] z-40 group-focus-within:flex pt-2">
-                    <a class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${pathname === '/' ? 'bg-primary text-background' : 'text-primary hover:bg-primary hover:text-background'} transition-none border-b border-primary/30`} href="/">SYSTEM_CORE</a>
-                    <a class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isDocs ? 'bg-primary text-background' : 'text-primary hover:bg-primary hover:text-background'} transition-none border-b border-primary/30`} href="/docs">DOCS</a>
-                    <a class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isGallery ? 'bg-primary text-background' : 'text-primary hover:bg-primary hover:text-background'} transition-none border-b border-primary/30`} href="/gallery">GALLERY</a>
-                    <a class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isBlog ? 'bg-primary text-background' : 'text-primary hover:bg-primary hover:text-background'} transition-none`} href="/blog">BLOG</a>
-                </div>
-            </div>
 
-            <!-- Desktop Static Terminal Header -->
-            <div class="hidden lg:flex items-center text-primary hover:bg-primary/20 p-2 transition-none cursor-pointer border border-primary/20">
-                <span class="material-symbols-outlined text-[18px]" data-icon="terminal">terminal</span>
-            </div>
-        </div>
+<nav
+  class="bg-background flex justify-between items-center w-full px-6 py-4 max-w-none sticky top-0 z-50 border-b border-primary/10"
+>
+  <div class="flex items-center">
+    <a
+      href="/"
+      class="text-2xl font-black tracking-[-0.05em] text-primary border-l-4 border-primary pl-3"
+      >BERSERK ARCH</a
+    >
+  </div>
+  <div
+    class="hidden lg:flex items-center gap-8 font-mono text-[11px] font-bold uppercase tracking-widest"
+  >
+    <a
+      class={`transition-none ${pathname === "/" ? "nav-link-active" : "nav-link"}`}
+      href="/">SYSTEM_CORE</a
+    >
+    <a
+      class={`transition-none ${isDocs ? "nav-link-active" : "nav-link"}`}
+      href="/docs">DOCS</a
+    >
+    <a
+      class={`transition-none ${isGallery ? "nav-link-active" : "nav-link"}`}
+      href="/gallery">GALLERY</a
+    >
+    <a
+      class={`transition-none ${isBlog ? "nav-link-active" : "nav-link"}`}
+      href="/blog">BLOG</a
+    >
+    <a
+      class="nav-link transition-none"
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://github.com/berserkarch">SOURCE</a
+    >
+  </div>
+
+  <!-- Action Terminal Headers (Global Right) -->
+  <div class="flex items-center gap-2">
+    <!-- Global Search Execution -->
+    <button
+      onclick="window.toggleGlobalSearch()"
+      class="flex items-center justify-center p-2 border border-primary/20 hover:border-primary/50 hover:bg-primary/20 text-primary transition-none outline-none cursor-pointer"
+      title="Execute Search [Ctrl+K]"
+    >
+      <span class="material-symbols-outlined text-[18px]">search</span>
+    </button>
+
+    <!-- Mobile Terminal Action Menu -->
+    <div class="relative group inline-block lg:hidden">
+      <div
+        class="flex items-center text-primary hover:bg-primary/20 p-2 transition-none cursor-pointer border border-primary/20 outline-none"
+        tabindex="0"
+      >
+        <span class="material-symbols-outlined text-[18px]" data-icon="terminal"
+          >terminal</span
+        >
+      </div>
+      <div
+        id="mobile-menu"
+        class="hidden flex-col bg-surface-container-low border-b-2 border-primary w-screen absolute top-[54px] -right-6 shadow-[0_4px_15px_rgba(0,0,0,0.8)] z-40 group-focus-within:flex pt-2"
+      >
+        <a
+          class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${pathname === "/" ? "bg-primary text-background" : "text-primary hover:bg-primary hover:text-background"} transition-none border-b border-primary/30`}
+          href="/">SYSTEM_CORE</a
+        >
+        <a
+          class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isDocs ? "bg-primary text-background" : "text-primary hover:bg-primary hover:text-background"} transition-none border-b border-primary/30`}
+          href="/docs/index">DOCS</a
+        >
+        <a
+          class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isGallery ? "bg-primary text-background" : "text-primary hover:bg-primary hover:text-background"} transition-none border-b border-primary/30`}
+          href="/gallery">GALLERY</a
+        >
+        <a
+          class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isBlog ? "bg-primary text-background" : "text-primary hover:bg-primary hover:text-background"} transition-none`}
+          href="/blog">BLOG</a
+        >
+      </div>
+    </div>
+
+    <!-- Desktop Static Terminal Header -->
+    <div
+      class="hidden lg:flex items-center text-primary hover:bg-primary/20 p-2 transition-none cursor-pointer border border-primary/20"
+    >
+      <span class="material-symbols-outlined text-[18px]" data-icon="terminal"
+        >terminal</span
+      >
+    </div>
+  </div>
 </nav>
