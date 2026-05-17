@@ -2,7 +2,6 @@
 const { pathname } = Astro.url;
 const isBlog = pathname.startsWith("/blog");
 const isGallery = pathname.startsWith("/gallery");
-const isDocs = pathname.startsWith("/docs");
 ---
 
 <nav
@@ -23,8 +22,10 @@ const isDocs = pathname.startsWith("/docs");
       href="/">SYSTEM_CORE</a
     >
     <a
-      class={`transition-none ${isDocs ? "nav-link-active" : "nav-link"}`}
-      href="/docs">DOCS</a
+      class="nav-link transition-none"
+      target="_blank"
+      rel="noopener noreferrer"
+      href="https://wiki.berserkarch.org">DOCS</a
     >
     <a
       class={`transition-none ${isGallery ? "nav-link-active" : "nav-link"}`}
@@ -72,8 +73,10 @@ const isDocs = pathname.startsWith("/docs");
           href="/">SYSTEM_CORE</a
         >
         <a
-          class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isDocs ? "bg-primary text-background" : "text-primary hover:bg-primary hover:text-background"} transition-none border-b border-primary/30`}
-          href="/docs/index">DOCS</a
+          class="block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest text-primary hover:bg-primary hover:text-background transition-none border-b border-primary/30"
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://wiki.berserkarch.org">DOCS</a
         >
         <a
           class={`block px-6 py-4 font-mono text-[11px] font-bold uppercase tracking-widest ${isGallery ? "bg-primary text-background" : "text-primary hover:bg-primary hover:text-background"} transition-none border-b border-primary/30`}

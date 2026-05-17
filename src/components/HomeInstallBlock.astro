@@ -27,23 +27,33 @@ import InstallStep from './InstallStep.astro';
 </div>
 <span class="text-[10px] uppercase tracking-widest text-primary font-bold">terminal — root@berserkarch</span>
 </div>
-<div class="p-8 font-mono text-sm leading-relaxed overflow-x-auto whitespace-pre text-on-surface-variant">
-<span class="text-primary font-bold">guts@berserkarch</span> ~ $ <span class="text-on-surface">btweak --help</span>                   
-usage: btweak [-h] [-v] &#123;fix,tools,docker&#125; ...
+<pre class="p-8 font-mono text-sm leading-relaxed overflow-x-auto text-on-surface-variant m-0"><code><span class="text-primary font-bold">guts@berserkarch</span> ~ $ <span class="text-on-surface">berserk</span>
+Package Manager for Security Tools, always from original sources, always latest.
 
-Berserk Arch Tweak Tool
+<span class="text-on-surface">Usage:</span>
+  berserk [flags]
+  berserk [command]
 
-positional arguments:
-  &#123;fix,tools,docker&#125;
-    fix               Fix things in berserkarch
-    tools             List, install and remove tools
-    docker            List and manage docker images for systems and tools
+<span class="text-on-surface">Available Commands:</span>
+  <span class="text-primary">doctor</span>      Verify all installer backends are available
+  <span class="text-primary">install</span>     Install one or more tools
+  <span class="text-primary">list</span>        List tools, profiles, categories, or Docker container groups
+  <span class="text-primary">remove</span>      Remove one or more installed tools
+  <span class="text-primary">run</span>         Run a Docker container from the catalog
+  <span class="text-primary">search</span>      Search the catalog for tools you can install
+  <span class="text-primary">self-update</span> Update berserk itself to the latest release
+  <span class="text-primary">sync</span>        Sync tools catalog (clone if absent, pull if present)
+  <span class="text-primary">update</span>      Update tools to latest versions
 
-options:
-  -h, --help          show this help message and exit
-  -v, --version       show program's version number and exit
-<span class="text-primary font-bold">guts@berserkarch</span> ~ $ <span class="animate-pulse text-primary font-bold">_</span>
-</div>
+<span class="text-on-surface">Flags:</span>
+      --config string   config directory holding config.yaml and tool catalog yaml files
+      --docker-clean    stop all containers, remove all images, prune
+  -h, --help            help for berserk
+  -v, --version         version for berserk
+  -y, --yes             assume yes to system pkg mgr prompts (pacman --noconfirm / apt -y)
+
+Use "berserk [command] --help" for more information about a command.
+<span class="text-primary font-bold">guts@berserkarch</span> ~ $ <span class="animate-pulse text-primary font-bold">_</span></code></pre>
 </div>
 </div>
 </section>

@@ -1,144 +1,158 @@
 ---
-import ImageCard from "./ImageCard.astro";
+const screenshots = [
+  { src: "/images/xfce4.png", alt: "BerserkArch XFCE4 Desktop", label: "01_XFCE", title: "DESKTOP / XFCE", desc: "Lightweight, fast, and highly configurable. The default BerserkArch experience." },
+  { src: "/images/kde.png", alt: "BerserkArch KDE Plasma Desktop", label: "02_KDE", title: "DESKTOP / KDE", desc: "Full-featured desktop with deep customization and modern Wayland support." },
+  { src: "/images/gnome.png", alt: "BerserkArch GNOME Desktop", label: "03_GNOME", title: "DESKTOP / GNOME", desc: "Minimal and clean. A focused workflow for operators who want zero distractions." },
+  { src: "/images/openbox.png", alt: "BerserkArch Openbox Desktop", label: "04_OPENBOX", title: "DESKTOP / OPENBOX", desc: "Stacking window manager. Bare metal control for those who want it raw." },
+  { src: "/images/hyprland.png", alt: "BerserkArch Hyprland Desktop", label: "05_HYPRLAND", title: "DESKTOP / HYPRLAND", desc: "Dynamic tiling Wayland compositor. Smooth animations, GPU-accelerated." },
+  { src: "/images/i3wm.png", alt: "BerserkArch I3WM Desktop", label: "06_I3WM", title: "DESKTOP / I3WM", desc: "A tiling window manager that gives you full control over your desktop. Perfect for power users." },
+];
 ---
 
-<!-- Gallery Grid (Bento/Asymmetric) -->
+<!-- Gallery Grid -->
 <section class="px-6 md:px-12 py-16 max-w-7xl mx-auto">
-  <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-    <!-- Main Feature Screenshot -->
-    <div
-      class="reveal md:col-span-8 group relative bg-surface-container overflow-hidden border border-primary/20 hover:border-primary transition-colors"
-    >
-      <img
-        alt="Gritty dark terminal setup with cyan coding highlights"
-        class="w-full h-auto object-fit filter grayscale-60 group-hover:grayscale-0 transition-all duration-300 opacity-80 group-hover:opacity-100"
-        data-alt="berserk arch xfce edition"
-        src="/assets/images/berserkarch.png"
-      />
+  <!-- DE Counter -->
+  <div class="reveal flex items-center gap-6 mb-12 border-b border-primary/20 pb-6">
+    <div class="flex items-center gap-2">
+      <span
+        class="material-symbols-outlined text-primary text-2xl"
+        style="font-variation-settings: 'FILL' 1;">memory</span
+      >
+      <span class="font-mono text-xs text-primary uppercase tracking-[0.3em] font-black">
+        AVAILABLE_ENVIRONMENTS
+      </span>
+    </div>
+    <span class="font-mono text-3xl font-black text-primary">{String(screenshots.length).padStart(2, '0')}</span>
+  </div>
+
+  <!-- Screenshot Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {screenshots.map((shot, i) => (
       <div
-        class="absolute bottom-0 left-0 p-6 bg-surface/90 backdrop-blur-sm w-full md:w-auto border-t md:border-t-0 md:border-r border-primary"
+        class={`reveal ${i > 0 ? `reveal-delay-${Math.min(i, 3) * 100}` : ''} group relative bg-surface-container overflow-hidden border border-primary/20 hover:border-primary transition-colors`}
       >
-        <div class="flex flex-col gap-1">
-          <span
-            class="text-xs font-mono text-primary font-bold tracking-widest uppercase"
-            >WORKSPACE_01 / XFCE</span
-          >
-          <span class="text-on-surface text-lg font-bold tracking-tighter"
-            >THE BLACK SWORDSMAN UI</span
-          >
-        </div>
-      </div>
-    </div>
-    <!-- Technical Specs Block -->
-    <div
-      class="reveal reveal-delay-100 md:col-span-4 bg-primary-container p-8 flex flex-col justify-between border-2 border-primary"
-    >
-      <div>
-        <span
-          class="material-symbols-outlined text-4xl mb-6 text-primary"
-          style="font-variation-settings: 'FILL' 1;">memory</span
-        >
-        <h3
-          class="text-2xl font-black uppercase tracking-tighter leading-none mb-4 text-on-primary-container"
-        >
-          PRE_CONFIGURED_DE
-        </h3>
-        <div
-          class="space-y-3 font-mono text-xs uppercase tracking-tighter text-primary"
-        >
-          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
-            <span>01:</span>
-            <span class="text-on-primary-container font-bold">XFCE</span>
-          </p>
-          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
-            <span>02:</span>
-            <span class="text-on-primary-container font-bold">OPENBOX</span>
-          </p>
-          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
-            <span>03:</span>
-            <span class="text-on-primary-container font-bold">GNOME</span>
-          </p>
-          <p class="flex justify-between border-b-2 border-primary/40 pb-1">
-            <span>04:</span>
-            <span class="text-on-primary-container font-bold">KDE</span>
-          </p>
-        </div>
-      </div>
-      <button
-        class="mt-8 bg-primary text-on-primary font-black py-4 px-6 text-sm tracking-widest uppercase hover:bg-white transition-colors duration-150 shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)]"
-      >
-        DOWNLOAD
-      </button>
-    </div>
-    <!-- Secondary Screenshots -->
-    <ImageCard
-      class="reveal"
-      imgSrc="/assets/images/kde.png"
-      imgAlt="Monochrome code on a high resolution display"
-      labelId="02_KDE"
-      title="DESKTOP / KDE"
-    />
-    <ImageCard
-      class="reveal reveal-delay-100"
-      imgSrc="/assets/images/gnome.png"
-      imgAlt="Vim editor with customized dark theme"
-      labelId="03_GNOME"
-      title="DESKTOP / GNOME"
-    />
-    <ImageCard
-      class="reveal reveal-delay-200"
-      imgSrc="/assets/images/openbox.png"
-      imgAlt="Terminal window showing system resources"
-      labelId="04_OPENBOX"
-      title="DESKTOP / OPENBOX"
-    />
-    <!-- Wide Display Block -->
-    <div
-      class="reveal md:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-surface-container-low p-8 border border-primary/30"
-    >
-      <div class="order-2 md:order-1">
-        <div class="flex items-center gap-2 mb-4">
-          <span
-            class="material-symbols-outlined text-primary"
-            style="font-variation-settings: 'FILL' 1;">terminal</span
-          >
-          <span
-            class="font-mono text-xs text-primary uppercase tracking-[0.3em] font-black"
-            >SHELL_ACCESS</span
-          >
-        </div>
-        <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">
-          BORN IN THE DARKNESS.
-        </h2>
-        <p
-          class="text-on-surface-variant mb-6 text-sm leading-relaxed max-w-lg"
-        >
-          BERSERK ARCH environments aren't just for show. They represent a
-          philosophy of total control over the machine. Every pixel of the gap,
-          every border color, every character spacing is forged in the fires of
-          the config.
-        </p>
-        <div class="flex gap-4">
-          <a
-            href="https://reddit.com/r/berserkarch"
-            target="_blank"
-            class="border-2 border-primary px-6 py-2 hover:bg-primary hover:text-on-primary transition-none font-mono text-xs uppercase font-bold text-primary"
-            >SUBMIT_SETUP</a
-          >
-        </div>
-      </div>
-      <div class="order-1 md:order-2">
-        <div
-          class="aspect-video bg-surface-container-highest overflow-hidden relative border border-primary"
-        >
+        <div class="relative overflow-hidden h-[280px]">
           <img
-            alt="Digital circuitry with cyan glowing lines"
-            class="w-full h-full object-cover opacity-100"
-            data-alt="Digital circuitry with cyan glowing lines"
-            src="/assets/images/kde.png"
+            alt={shot.alt}
+            class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:scale-105"
+            src={shot.src}
+            loading={i < 3 ? "eager" : "lazy"}
           />
+          <!-- Index Tag -->
+          <div class="absolute top-0 right-0 p-3 bg-primary text-on-primary font-bold">
+            <span class="text-[10px] font-mono">{shot.label}</span>
+          </div>
+          <!-- Expand Overlay -->
+          <button
+            class="gallery-expand absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-background/40 backdrop-blur-[2px] cursor-pointer border-none outline-none"
+            data-src={shot.src}
+            data-alt={shot.alt}
+            data-title={shot.title}
+          >
+            <span class="material-symbols-outlined text-primary text-4xl drop-shadow-[0_0_10px_rgba(139,233,253,0.5)]">fullscreen</span>
+          </button>
         </div>
+        <!-- Info Bar -->
+        <div class="p-5 bg-surface-container border-t border-primary/20">
+          <p class="font-mono text-xs uppercase tracking-widest text-primary font-bold mb-2">{shot.title}</p>
+          <p class="text-on-surface-variant text-xs leading-relaxed">{shot.desc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Bottom Banner -->
+  <div
+    class="reveal mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-surface-container-low p-8 border border-primary/30"
+  >
+    <div>
+      <div class="flex items-center gap-2 mb-4">
+        <span
+          class="material-symbols-outlined text-primary"
+          style="font-variation-settings: 'FILL' 1;">terminal</span
+        >
+        <span
+          class="font-mono text-xs text-primary uppercase tracking-[0.3em] font-black"
+          >SHELL_ACCESS</span
+        >
+      </div>
+      <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">
+        BORN IN THE DARKNESS.
+      </h2>
+      <p
+        class="text-on-surface-variant mb-6 text-sm leading-relaxed max-w-lg"
+      >
+        BERSERK ARCH environments aren't just for show. They represent a
+        philosophy of total control over the machine. Every pixel of the gap,
+        every border color, every character spacing is forged in the fires of
+        the config.
+      </p>
+      <div class="flex gap-4">
+        <a
+          href="https://reddit.com/r/berserkarch"
+          target="_blank"
+          class="border-2 border-primary px-6 py-2 hover:bg-primary hover:text-on-primary transition-none font-mono text-xs uppercase font-bold text-primary"
+          >SUBMIT_SETUP</a
+        >
+      </div>
+    </div>
+    <div>
+      <div
+        class="aspect-video bg-surface-container-highest overflow-hidden relative border border-primary"
+      >
+        <img
+          alt="BerserkArch Hyprland Desktop"
+          class="w-full h-full object-cover opacity-100"
+          src="/images/berserkarch.png"
+          loading="lazy"
+        />
       </div>
     </div>
   </div>
 </section>
+
+<!-- Lightbox -->
+<div id="gallery-lightbox" class="fixed inset-0 z-[100] bg-background/95 backdrop-blur-sm hidden items-center justify-center p-4 md:p-12">
+  <button id="lightbox-close" class="absolute top-6 right-6 text-primary/50 hover:text-primary transition-colors cursor-pointer bg-transparent border-none outline-none z-10">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  <div class="relative max-w-6xl w-full max-h-[85vh] flex flex-col items-center">
+    <img id="lightbox-img" alt="" class="max-w-full max-h-[75vh] object-contain border-2 border-primary/30" />
+    <div class="mt-4 bg-surface-container border border-primary/20 px-6 py-3">
+      <p id="lightbox-title" class="font-mono text-xs uppercase tracking-widest text-primary font-bold"></p>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  // Lightbox logic
+  const lightbox = document.getElementById('gallery-lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const lightboxTitle = document.getElementById('lightbox-title');
+  const lightboxClose = document.getElementById('lightbox-close');
+
+  document.querySelectorAll('.gallery-expand').forEach(btn => {
+    btn.addEventListener('click', () => {
+      lightboxImg.src = btn.dataset.src;
+      lightboxImg.alt = btn.dataset.alt;
+      lightboxTitle.textContent = btn.dataset.title;
+      lightbox.classList.remove('hidden');
+      lightbox.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  const closeLightbox = () => {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  };
+
+  lightboxClose.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) closeLightbox();
+  });
+</script>

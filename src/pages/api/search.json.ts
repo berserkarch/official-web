@@ -1,26 +1,13 @@
 import { getCollection } from 'astro:content';
 
 export const GET = async () => {
-    const docs = await getCollection('docs');
     const blog = await getCollection('blog');
     
     let searchIndex: any[] = [];
     
     // Strip markdown formatting brutally and aggressively truncate generic bodies
-    const stripMd = (text: string) => text.replace(/[#*`~>\[\]()-]/g, ' ').replace(/\s+/g, ' ').substring(0, 150) + '...';
+    const stripMd = (text: string) => text.replace(/[#*`~>[\]()-]/g, ' ').replace(/\s+/g, ' ').substring(0, 150) + '...';
 
-    // Process Docs
-    docs.forEach(doc => {
-        // Astro v5 uses id for taxonomy endpoints. ID structure: `system/networking/firewall`
-        searchIndex.push({
-            title: doc.data.title,
-            slug: `/docs/${doc.id}`,
-            type: 'DOCS',
-            body: doc.body ? stripMd(doc.body) : '',
-            tags: ['documentation', doc.data.category || 'core']
-        });
-    });
-    
     // Process Blogs
     const uniqueTags = new Set();
     blog.forEach(post => {
