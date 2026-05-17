@@ -34,7 +34,10 @@ const screenshots = [
         <div class="relative overflow-hidden h-[280px]">
           <img
             alt={shot.alt}
-            class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:scale-105"
+            class="w-full h-full object-cover transition-all duration-300 opacity-70 group-hover:opacity-100 group-hover:scale-105"
+            style="filter: brightness(0.4) saturate(0.6);"
+            onmouseenter="this.style.filter='none'"
+            onmouseleave="this.style.filter='brightness(0.4) saturate(0.6)'"
             src={shot.src}
             loading={i < 3 ? "eager" : "lazy"}
           />
@@ -77,15 +80,14 @@ const screenshots = [
         >
       </div>
       <h2 class="text-4xl font-black uppercase mb-4 tracking-tighter">
-        BORN IN THE DARKNESS.
+        SHOW YOUR SETUP.
       </h2>
       <p
         class="text-on-surface-variant mb-6 text-sm leading-relaxed max-w-lg"
       >
-        BERSERK ARCH environments aren't just for show. They represent a
-        philosophy of total control over the machine. Every pixel of the gap,
-        every border color, every character spacing is forged in the fires of
-        the config.
+        Running Berserk Arch? Share your desktop configuration with the
+        community. Post your rice on the subreddit and it may be featured
+        here.
       </p>
       <div class="flex gap-4">
         <a

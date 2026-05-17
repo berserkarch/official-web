@@ -51,7 +51,10 @@ const screenshots = [
         <div class="relative group overflow-hidden bg-surface-container border border-primary/10 hover:border-primary/40 transition-all h-[250px] md:h-[300px]">
           <img
             alt={shot.alt}
-            class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
+            class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-300"
+            style="filter: brightness(0.4) saturate(0.6);"
+            onmouseenter="this.style.filter='none'"
+            onmouseleave="this.style.filter='brightness(0.4) saturate(0.6)'"
             src={shot.src}
             loading={i < 3 ? "eager" : "lazy"}
           />

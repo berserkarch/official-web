@@ -21,7 +21,7 @@
     --radius-lg: var(--radius);
 
     /* Berserk Theme Extensions */
-    --color-surface-container-low: #1b1b1b;
+    --color-surface-container-low: #111318;
     --color-on-primary-fixed: #002026;
     --color-inverse-surface: #e2e2e2;
     --color-on-background: #e2e2e2;
@@ -35,38 +35,38 @@
     --color-on-error-container: #ffdad6;
     --color-primary-container: #004e59;
     --color-outline-variant: #3c5054;
-    --color-background: #131313;
+    --color-background: #0b0c0e;
     --color-on-error: #690005;
-    --color-inverse-on-surface: #303030;
-    --color-surface-variant: #353535;
+    --color-inverse-on-surface: #1a1c22;
+    --color-surface-variant: #1e2028;
     --color-tertiary-container: #004e59;
     --color-on-tertiary: #00363d;
     --color-on-primary-fixed-variant: #004e59;
     --color-error: #ffb4ab;
     --color-on-primary-container: #8be9fd;
-    --color-on-secondary: #303030;
+    --color-on-secondary: #1a1c22;
     --color-on-secondary-container: #b6b5b4;
-    --color-surface-dim: #131313;
+    --color-surface-dim: #08090b;
     --color-tertiary: #8be9fd;
     --color-surface-tint: #8be9fd;
-    --color-surface-bright: #393939;
+    --color-surface-bright: #252830;
     --color-on-surface-variant: #b8dee3;
     --color-secondary-fixed-dim: #c8c6c6;
-    --color-surface-container-high: #2a2a2a;
+    --color-surface-container-high: #1a1c22;
     --color-primary-fixed-dim: #8be9fd;
     --color-outline: #84a4aa;
     --color-on-primary: #00363d;
     --color-tertiary-fixed-dim: #8be9fd;
-    --color-secondary-container: #474747;
-    --color-on-secondary-fixed-variant: #474747;
-    --color-surface: #131313;
+    --color-secondary-container: #2b303b;
+    --color-on-secondary-fixed-variant: #2b303b;
+    --color-surface: #0b0c0e;
     --color-secondary-fixed: #e4e2e1;
-    --color-surface-container: #1f1f1f;
+    --color-surface-container: #14161b;
     --color-tertiary-fixed: #bcdeff;
     --color-on-tertiary-fixed: #002026;
-    --color-surface-container-lowest: #0e0e0e;
+    --color-surface-container-lowest: #060709;
     --color-on-surface: #e2e2e2;
-    --color-surface-container-highest: #353535;
+    --color-surface-container-highest: #21262d;
     --color-on-secondary-fixed: #1b1c1c;
 
     --font-headline: "Space Grotesk", sans-serif;
@@ -76,23 +76,23 @@
 }
 
 :root, .dark {
-    --background: #131313;
+    --background: #0b0c0e;
     --foreground: #e2e2e2;
-    --card: #1f1f1f;
+    --card: #14161b;
     --card-foreground: #e2e2e2;
-    --popover: #1f1f1f;
+    --popover: #14161b;
     --popover-foreground: #e2e2e2;
     --primary: #8be9fd;
     --primary-foreground: #002026;
-    --secondary: #2a2a2a;
+    --secondary: #1a1c22;
     --secondary-foreground: #e2e2e2;
-    --muted: #1b1b1b;
+    --muted: #111318;
     --muted-foreground: #808080;
-    --accent: #2a2a2a;
+    --accent: #1a1c22;
     --accent-foreground: #e2e2e2;
     --destructive: #93000a;
     --border: #3c5054;
-    --input: #1b1b1b;
+    --input: #111318;
     --ring: #8be9fd;
     --radius: 0px;
 }
@@ -123,10 +123,10 @@
 
 @layer components {
     .btn-primary {
-        @apply inline-block bg-primary text-on-primary-fixed px-8 py-4 font-bold uppercase tracking-widest text-sm hover:bg-white transition-colors duration-150 shadow-[0_0_20px_rgba(139,233,253,0.2)];
+        @apply inline-block bg-primary text-on-primary-fixed px-8 py-4 font-bold uppercase tracking-widest text-sm hover:bg-white transition-all duration-300 ease-out shadow-[0_0_20px_rgba(139,233,253,0.2)] hover:shadow-[0_0_30px_rgba(139,233,253,0.4)];
     }
     .btn-outline {
-        @apply inline-block border-2 border-primary text-primary px-8 py-4 font-bold uppercase tracking-widest text-sm hover:bg-primary hover:text-on-primary-fixed transition-colors duration-150;
+        @apply inline-block border-2 border-primary text-primary px-8 py-4 font-bold uppercase tracking-widest text-sm hover:bg-primary hover:text-on-primary-fixed transition-all duration-300 ease-out;
     }
     .feature-card {
         @apply p-8 bg-surface-container border-l-4 border-primary hover:bg-surface-container-high hover:-translate-y-2 hover:shadow-[0_10px_30px_-15px_rgba(139,233,253,0.3)] transition-all duration-300;
@@ -134,8 +134,25 @@
     .image-card-container {
         @apply relative bg-surface-container overflow-hidden border border-primary/10 hover:border-primary transition-colors;
     }
+    .image-card-container::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(11,12,14,0.4) 0%, rgba(11,12,14,0.6) 100%);
+        pointer-events: none;
+        transition: opacity 0.3s;
+        z-index: 1;
+    }
+    .image-card-container:hover::after,
+    .group:hover .image-card-container::after {
+        opacity: 0;
+    }
     .image-card-img {
-        @apply w-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-300;
+        @apply w-full object-cover transition-all duration-300;
+        filter: brightness(0.45) saturate(0.6);
+    }
+    .image-card-img:hover, .group:hover .image-card-img {
+        filter: none;
     }
     .nav-link {
         @apply font-['Space_Grotesk'] tracking-tighter uppercase font-bold text-sm text-foreground hover:text-primary;

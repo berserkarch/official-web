@@ -10,12 +10,54 @@ import InstallStep from './InstallStep.astro';
                     INSTALLATION
                 </h2>
 <p class="text-on-surface-variant mb-8 leading-relaxed">
-                    The ritual of installation is the first step of the struggle. Follow the sequence precisely. No graphical installers. No hand-holding.
+                    Get up and running in three steps. CLI-based installer, no bloat, full control over your system from the start.
                 </p>
 <div class="space-y-4">
 <InstallStep number="01" title="DOWNLOAD THE ISO" active={true} />
 <InstallStep number="02" title="START THE INSTALLER" />
 <InstallStep number="03" title="DONE." />
+</div>
+
+<div class="mt-12 pt-10 border-t border-primary/20">
+  <h3 class="text-2xl font-black uppercase mb-4 flex items-center gap-3">
+    <span class="h-6 w-1.5 bg-primary"></span>
+    BERSERK CLI
+  </h3>
+  <p class="text-on-surface-variant mb-6 leading-relaxed text-sm">
+    A curated package manager for offensive security tools. Install, update, and manage your entire toolkit from a single command — always from source, always latest.
+  </p>
+  <div class="space-y-5 mb-8">
+    <div class="flex items-start gap-3">
+      <span class="material-symbols-outlined text-primary text-lg mt-0.5" style="font-variation-settings: 'FILL' 1;">terminal</span>
+      <div>
+        <div class="text-on-surface font-bold text-sm uppercase tracking-wide">Multi-backend</div>
+        <div class="text-on-surface-variant text-xs">Installs via Go, Cargo, pip, npm, gem, pacman, and GitHub releases.</div>
+      </div>
+    </div>
+    <div class="flex items-start gap-3">
+      <span class="material-symbols-outlined text-primary text-lg mt-0.5" style="font-variation-settings: 'FILL' 1;">category</span>
+      <div>
+        <div class="text-on-surface font-bold text-sm uppercase tracking-wide">Profiles & Categories</div>
+        <div class="text-on-surface-variant text-xs">Install entire toolkits by profile — AD attacks, web hacking, recon, and more.</div>
+      </div>
+    </div>
+    <div class="flex items-start gap-3">
+      <span class="material-symbols-outlined text-primary text-lg mt-0.5" style="font-variation-settings: 'FILL' 1;">deployed_code</span>
+      <div>
+        <div class="text-on-surface font-bold text-sm uppercase tracking-wide">Docker Containers</div>
+        <div class="text-on-surface-variant text-xs">Run pre-configured containers like Kali CLI and Tor Browser directly from the catalog.</div>
+      </div>
+    </div>
+  </div>
+  <a
+    href="https://github.com/thehackersbrain/berserk"
+    target="_blank"
+    rel="noopener noreferrer"
+    class="btn-outline inline-flex items-center gap-2 !px-4 !py-2 !text-[10px]"
+  >
+    <span class="material-symbols-outlined text-sm">open_in_new</span>
+    VIEW ON GITHUB
+  </a>
 </div>
 </div>
 <div class="reveal reveal-delay-200 md:w-2/3 bg-surface-container-lowest border border-primary/30 relative">
