@@ -101,7 +101,8 @@ import logo from "../assets/images/logo.svg";
           try {
             const res = await fetch("https://iso.berserkarch.org/latest.txt");
             if (!res.ok) return;
-            const text = (await res.text()).trim();
+            const raw = (await res.text()).trim();
+            const text = raw.split("/").pop()?.replace(/\.iso$/i, "") ?? "";
             if (text) {
               vspan.textContent = text;
               badge.style.opacity = "1";
