@@ -31,10 +31,17 @@ import logo from "../assets/images/logo.svg";
         >
       </h1>
       <p
-        class="reveal reveal-delay-100 text-xl md:text-4xl font-light text-on-surface-variant tracking-tight mb-12 max-w-3xl"
+        class="reveal reveal-delay-100 text-xl md:text-4xl font-light text-on-surface-variant tracking-tight mb-6 max-w-3xl"
       >
         A distro crafted for hackers, developers, and nerds alike.
       </p>
+      <div id="version-badge" class="reveal reveal-delay-150 mb-8 flex items-center gap-3 opacity-0 transition-opacity duration-500">
+        <span class="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/30 font-mono text-xs text-primary tracking-widest uppercase">
+          <span class="material-symbols-outlined" style="font-size:13px; font-variation-settings: 'FILL' 1;">new_releases</span>
+          LATEST
+        </span>
+        <span id="version-string" class="font-mono text-sm text-on-surface-variant/80 tracking-wide"></span>
+      </div>
       <div class="reveal reveal-delay-200 flex flex-wrap gap-4 z-20">
         <div class="relative group inline-block">
           <button
@@ -86,6 +93,24 @@ import logo from "../assets/images/logo.svg";
       </p>
 
       <script>
+        // --- Latest release version ---
+        (async () => {
+          const badge = document.getElementById("version-badge");
+          const vspan = document.getElementById("version-string");
+          if (!badge || !vspan) return;
+          try {
+            const res = await fetch("https://iso.berserkarch.org/latest.txt");
+            if (!res.ok) return;
+            const text = (await res.text()).trim();
+            if (text) {
+              vspan.textContent = text;
+              badge.style.opacity = "1";
+            }
+          } catch {
+            // leave hidden
+          }
+        })();
+
         // --- Download counter display ---
         (async () => {
           const el = document.getElementById("dl-count");
