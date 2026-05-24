@@ -244,10 +244,18 @@ const file = "latest";
         if (statusLine)
           statusLine.textContent = "TRANSFER_CONFIRMED — REDIRECTING...";
 
-        if (!cancelled)
+        if (!cancelled) {
+          // Track the direct download before navigating away
+          navigator.sendBeacon(
+            "/api/downloads",
+            new Blob([JSON.stringify({ source: "direct" })], {
+              type: "application/json",
+            })
+          );
           setTimeout(() => {
             window.location.href = link;
           }, 600);
+        }
       } catch (err) {
         console.error("Redirect failed:", err);
         clearInterval(fillInterval);

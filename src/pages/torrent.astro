@@ -244,10 +244,18 @@ const file = "torrent";
         if (statusLine)
           statusLine.textContent = "TRANSFER_CONFIRMED — REDIRECTING...";
 
-        if (!cancelled)
+        if (!cancelled) {
+          // Track the torrent download before navigating away
+          navigator.sendBeacon(
+            "/api/downloads",
+            new Blob([JSON.stringify({ source: "torrent" })], {
+              type: "application/json",
+            })
+          );
           setTimeout(() => {
             window.location.href = link;
           }, 600);
+        }
       } catch (err) {
         console.error("Redirect failed:", err);
         clearInterval(fillInterval);

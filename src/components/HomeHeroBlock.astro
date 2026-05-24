@@ -61,6 +61,7 @@ import logo from "../assets/images/logo.svg";
             <a
               class="block px-6 py-4 text-primary font-mono text-[11px] font-bold uppercase tracking-widest hover:bg-primary hover:text-background transition-colors duration-200 border-b border-primary/30 outline-none"
               href="https://drive.google.com/drive/folders/14sOpnU4iMUeivxWvj9rvctVFgGUbXiAq"
+              data-track="gdrive"
               >GOOGLE_DRIVE</a
             >
             <a
@@ -78,6 +79,44 @@ import logo from "../assets/images/logo.svg";
           READ THE MAN
         </a>
       </div>
+      <p class="reveal reveal-delay-300 mt-4 text-xs font-mono text-on-surface-variant/50 tracking-widest uppercase flex items-center gap-2 pointer-events-none select-none">
+        <span class="material-symbols-outlined text-xs leading-none" style="font-size:14px;">download</span>
+        <span id="dl-count" class="inline-block min-w-[5ch] transition-opacity duration-500">—</span>
+        <span>total downloads</span>
+      </p>
+
+      <script>
+        // --- Download counter display ---
+        (async () => {
+          const el = document.getElementById("dl-count");
+          if (!el) return;
+          try {
+            const res = await fetch("/api/downloads");
+            if (!res.ok) return;
+            const { total } = await res.json();
+            if (total > 0) {
+              el.style.opacity = "0";
+              setTimeout(() => {
+                el.textContent = total.toLocaleString("en-US");
+                el.style.opacity = "1";
+              }, 150);
+            }
+          } catch {
+            // leave the dash fallback
+          }
+        })();
+
+        // --- Click tracking for Google Drive + Torrent links ---
+        document.querySelectorAll("[data-track]").forEach((link) => {
+          link.addEventListener("click", () => {
+            const source = (link as HTMLElement).dataset.track;
+            navigator.sendBeacon(
+              "/api/downloads",
+              new Blob([JSON.stringify({ source })], { type: "application/json" })
+            );
+          });
+        });
+      </script>
     </div>
   </div>
   <div class="hidden lg:block absolute -bottom-5 right-12 opacity-9">
