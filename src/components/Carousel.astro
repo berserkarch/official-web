@@ -1,0 +1,451 @@
+---
+const screenshots = [
+  { src: "/images/xfce4.png", name: "XFCE", label: "01_XFCE", desc: "Lightweight, fast, and highly configurable. The default BerserkArch experience." },
+  { src: "/images/kde.png", name: "KDE", label: "02_KDE", desc: "Full-featured desktop with deep customization and modern Wayland support." },
+  { src: "/images/gnome.png", name: "GNOME", label: "03_GNOME", desc: "Minimal and clean. A focused workflow for operators who want zero distractions." },
+  { src: "/images/openbox.png", name: "Openbox", label: "04_OPENBOX", desc: "Stacking window manager. Bare metal control for those who want it raw." },
+  { src: "/images/hyprland.png", name: "Hyprland", label: "05_HYPRLAND", desc: "Dynamic tiling Wayland compositor. Smooth animations, GPU-accelerated." },
+  { src: "/images/i3wm.png", name: "i3wm", label: "06_I3WM", desc: "A tiling window manager that gives you full control over your desktop. Perfect for power users." },
+  { src: "/images/dwm.png", name: "DWM", label: "07_DWM", desc: "A minimalist and highly efficient window manager. Configured and pre-patched." },
+];
+---
+
+<div class="carousel-container select-none my-8 border border-primary/30 bg-surface-container relative" id="berserk-carousel" tabindex="0" aria-label="BerserkArch Environment Showcase">
+  <!-- Scanline effect on top -->
+  <div class="scanline"></div>
+  
+  <!-- Header bar -->
+  <div class="flex justify-between items-center px-4 py-2 border-b border-primary/20 bg-surface-container-low font-mono text-[10px] text-primary/80">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+      <span class="tracking-wider">SYSTEM_GALLERY: {screenshots.length} PROFILES LOADED</span>
+    </div>
+    <button class="autoplay-toggle font-bold tracking-widest text-[9px] border border-primary/30 px-2 py-0.5 bg-background/50 hover:bg-primary hover:text-on-primary transition-colors cursor-pointer outline-none">
+      [ AUTOPLAY: ON ]
+    </button>
+  </div>
+
+  <!-- Viewport -->
+  <div class="relative aspect-video overflow-hidden group/viewport bg-black">
+    {screenshots.map((shot, idx) => (
+      <div 
+        class={`carousel-slide absolute inset-0 transition-all duration-500 ease-in-out ${idx === 0 ? 'opacity-100 z-10' : 'opacity-0 z-0 pointer-events-none'}`} 
+        data-index={idx}
+      >
+        <img 
+          src={shot.src} 
+          alt={shot.desc} 
+          class="w-full h-full object-cover cursor-pointer hover:scale-[1.01] transition-transform duration-700" 
+          style="filter: brightness(0.65) saturate(0.85);"
+          loading={idx === 0 ? "eager" : "lazy"}
+        />
+        <div class="absolute top-4 left-4 font-mono text-xs bg-primary text-on-primary font-bold px-2 py-1 select-none z-20">
+          {shot.label}
+        </div>
+      </div>
+    ))}
+
+    <!-- Nav buttons -->
+    <button 
+      class="prev-btn absolute left-4 top-1/2 -translate-y-1/2 z-30 font-mono font-bold text-xs border border-primary/50 text-primary bg-background/90 hover:bg-primary hover:text-on-primary px-3 py-2 cursor-pointer transition-all duration-150 backdrop-blur-sm active:scale-95 select-none"
+      aria-label="Previous Profile"
+    >
+      [ &lt; ]
+    </button>
+    <button 
+      class="next-btn absolute right-4 top-1/2 -translate-y-1/2 z-30 font-mono font-bold text-xs border border-primary/50 text-primary bg-background/90 hover:bg-primary hover:text-on-primary px-3 py-2 cursor-pointer transition-all duration-150 backdrop-blur-sm active:scale-95 select-none"
+      aria-label="Next Profile"
+    >
+      [ &gt; ]
+    </button>
+
+    <!-- Expand hint overlay on hover -->
+    <div class="absolute bottom-4 right-4 z-20 opacity-0 group-hover/viewport:opacity-100 transition-opacity duration-300 font-mono text-[9px] bg-background/80 border border-primary/40 px-2 py-1 text-primary backdrop-blur-sm pointer-events-none">
+      CLICK IMAGE TO EXPAND [FULLSCREEN]
+    </div>
+  </div>
+
+  <!-- Info section -->
+  <div class="p-4 bg-surface-container border-b border-primary/10">
+    <div class="flex justify-between items-start mb-2">
+      <h3 class="carousel-title font-mono text-sm uppercase tracking-widest text-primary font-bold m-0 p-0 border-none">
+        DESKTOP / XFCE
+      </h3>
+      <span class="carousel-counter font-mono text-xs text-primary/50">
+        [ 01 / 07 ]
+      </span>
+    </div>
+    <p class="carousel-desc text-on-surface-variant text-xs leading-relaxed m-0 p-0 min-h-[3rem] font-light">
+      Lightweight, fast, and highly configurable. The default BerserkArch experience.
+    </p>
+  </div>
+
+  <!-- Thumbnails track -->
+  <div class="relative flex gap-2 p-3 bg-surface-container-lowest overflow-x-auto scrollbar-thin border-t border-primary/10">
+    {screenshots.map((shot, idx) => (
+      <button 
+        class={`carousel-thumb flex-shrink-0 w-20 md:w-24 aspect-video relative border transition-all duration-150 cursor-pointer overflow-hidden ${idx === 0 ? 'border-primary shadow-[0_0_10px_rgba(139,233,253,0.3)]' : 'border-primary/20 opacity-50 hover:opacity-100 hover:border-primary/50'}`}
+        data-index={idx}
+        aria-label={`Go to slide ${idx + 1}`}
+      >
+        <img src={shot.src} alt="" class="w-full h-full object-cover" loading="lazy" />
+        <div class="absolute inset-0 bg-primary/10 mix-blend-overlay"></div>
+      </button>
+    ))}
+  </div>
+</div>
+
+<!-- Built-in Lightbox for this Carousel -->
+<div class="carousel-lightbox fixed inset-0 z-[110] bg-background/95 backdrop-blur-sm hidden items-center justify-center p-4 md:p-12 select-none" id="carousel-lightbox">
+  <button class="lightbox-close absolute top-6 right-6 text-primary/50 hover:text-primary transition-colors cursor-pointer bg-transparent border-none outline-none z-20">
+    <span class="material-symbols-outlined text-3xl">close</span>
+  </button>
+  
+  <button class="lightbox-prev absolute left-6 top-1/2 -translate-y-1/2 text-primary/50 hover:text-primary hover:scale-110 transition-all cursor-pointer bg-transparent border-none outline-none z-20 hidden md:block">
+    <span class="material-symbols-outlined text-5xl">chevron_left</span>
+  </button>
+  <button class="lightbox-next absolute right-6 top-1/2 -translate-y-1/2 text-primary/50 hover:text-primary hover:scale-110 transition-all cursor-pointer bg-transparent border-none outline-none z-20 hidden md:block">
+    <span class="material-symbols-outlined text-5xl">chevron_right</span>
+  </button>
+
+  <div class="relative max-w-6xl w-full max-h-[85vh] flex flex-col items-center">
+    <img class="lightbox-img max-w-full max-h-[75vh] object-contain border-2 border-primary/30 shadow-[0_0_30px_rgba(139,233,253,0.15)]" src="" alt="" />
+    <div class="mt-4 bg-surface-container border border-primary/20 px-6 py-3 text-center">
+      <p class="lightbox-title font-mono text-xs uppercase tracking-widest text-primary font-bold m-0"></p>
+      <p class="lightbox-desc text-on-surface-variant text-[11px] mt-1 max-w-md m-0"></p>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Reset MDX image styles for carousel & lightbox images */
+  .carousel-container img,
+  #carousel-lightbox img {
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .carousel-slide img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .carousel-thumb img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 4px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(139, 233, 253, 0.2);
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 233, 253, 0.5);
+  }
+  
+  .carousel-container:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+</style>
+
+<script>
+  // Slide metadata
+  const slidesData = [
+    { title: "DESKTOP / XFCE", label: "01_XFCE", desc: "Lightweight, fast, and highly configurable. The default BerserkArch experience." },
+    { title: "DESKTOP / KDE", label: "02_KDE", desc: "Full-featured desktop with deep customization and modern Wayland support." },
+    { title: "DESKTOP / GNOME", label: "03_GNOME", desc: "Minimal and clean. A focused workflow for operators who want zero distractions." },
+    { title: "DESKTOP / OPENBOX", label: "04_OPENBOX", desc: "Stacking window manager. Bare metal control for those who want it raw." },
+    { title: "DESKTOP / HYPRLAND", label: "05_HYPRLAND", desc: "Dynamic tiling Wayland compositor. Smooth animations, GPU-accelerated." },
+    { title: "DESKTOP / I3WM", label: "06_I3WM", desc: "A tiling window manager that gives you full control over your desktop. Perfect for power users." },
+    { title: "DESKTOP / DWM", label: "07_DWM", desc: "A minimalist and highly efficient window manager. Configured and pre-patched." }
+  ];
+
+  // DOM Elements
+  const container = document.getElementById('berserk-carousel');
+  if (container) {
+    const slides = container.querySelectorAll('.carousel-slide');
+    const thumbs = container.querySelectorAll('.carousel-thumb');
+    const titleEl = container.querySelector('.carousel-title');
+    const descEl = container.querySelector('.carousel-desc');
+    const counterEl = container.querySelector('.carousel-counter');
+    const prevBtn = container.querySelector('.prev-btn');
+    const nextBtn = container.querySelector('.next-btn');
+    const autoplayToggle = container.querySelector('.autoplay-toggle');
+    
+    // Lightbox elements
+    const lightbox = document.getElementById('carousel-lightbox') as HTMLElement;
+    const lightboxImg = lightbox?.querySelector('.lightbox-img') as HTMLImageElement;
+    const lightboxTitle = lightbox?.querySelector('.lightbox-title') as HTMLElement;
+    const lightboxDesc = lightbox?.querySelector('.lightbox-desc') as HTMLElement;
+    const lightboxClose = lightbox?.querySelector('.lightbox-close') as HTMLElement;
+    const lightboxPrev = lightbox?.querySelector('.lightbox-prev') as HTMLElement;
+    const lightboxNext = lightbox?.querySelector('.lightbox-next') as HTMLElement;
+
+    let currentIndex = 0;
+    const totalSlides = slidesData.length;
+    let autoplayInterval: number | null = null;
+    let isAutoplayActive = true;
+    const AUTOPLAY_DELAY = 5000;
+
+    // Function to go to a specific slide
+    function goToSlide(index: number) {
+      // Bounds control
+      currentIndex = (index + totalSlides) % totalSlides;
+
+      // Update slides visibility (crossfade opacity and control z-index/interactivity)
+      slides.forEach((slide, idx) => {
+        if (idx === currentIndex) {
+          slide.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+          slide.classList.add('opacity-100', 'z-10');
+        } else {
+          slide.classList.remove('opacity-100', 'z-10');
+          slide.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+        }
+      });
+
+      // Update thumbnails border / glowing focus styles
+      thumbs.forEach((thumb, idx) => {
+        const htmlThumb = thumb as HTMLElement;
+        if (idx === currentIndex) {
+          htmlThumb.classList.remove('border-primary/20', 'opacity-50');
+          htmlThumb.classList.add('border-primary', 'shadow-[0_0_10px_rgba(139,233,253,0.3)]');
+          
+          const thumbContainer = htmlThumb.parentElement;
+          if (thumbContainer) {
+            const containerWidth = thumbContainer.clientWidth;
+            const thumbLeft = htmlThumb.offsetLeft;
+            const thumbWidth = htmlThumb.clientWidth;
+            const targetScrollLeft = thumbLeft - (containerWidth / 2) + (thumbWidth / 2);
+            thumbContainer.scrollTo({
+              left: targetScrollLeft,
+              behavior: 'smooth'
+            });
+          }
+        } else {
+          htmlThumb.classList.remove('border-primary', 'shadow-[0_0_10px_rgba(139,233,253,0.3)]');
+          htmlThumb.classList.add('border-primary/20', 'opacity-50');
+        }
+      });
+
+      // Update text fields
+      if (titleEl) titleEl.textContent = slidesData[currentIndex].title;
+      if (descEl) descEl.textContent = slidesData[currentIndex].desc;
+      if (counterEl) counterEl.textContent = `[ ${String(currentIndex + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')} ]`;
+
+      // Update lightbox if currently open
+      if (lightbox && !lightbox.classList.contains('hidden')) {
+        updateLightboxContent();
+      }
+    }
+
+    // Lightbox contents update
+    function updateLightboxContent() {
+      if (lightboxImg && lightboxTitle && lightboxDesc) {
+        const activeImg = slides[currentIndex].querySelector('img') as HTMLImageElement;
+        if (activeImg) {
+          lightboxImg.src = activeImg.src;
+          lightboxImg.alt = activeImg.alt;
+        }
+        lightboxTitle.textContent = slidesData[currentIndex].title;
+        lightboxDesc.textContent = slidesData[currentIndex].desc;
+      }
+    }
+
+    // Next/Prev functions
+    function nextSlide() {
+      goToSlide(currentIndex + 1);
+    }
+    function prevSlide() {
+      goToSlide(currentIndex - 1);
+    }
+
+    // Autoplay implementation
+    function startAutoplay() {
+      if (autoplayInterval) clearInterval(autoplayInterval);
+      autoplayInterval = window.setInterval(nextSlide, AUTOPLAY_DELAY);
+    }
+
+    function stopAutoplay() {
+      if (autoplayInterval) {
+        clearInterval(autoplayInterval);
+        autoplayInterval = null;
+      }
+    }
+
+    function updateAutoplayButtonUI() {
+      if (autoplayToggle) {
+        autoplayToggle.textContent = isAutoplayActive ? '[ AUTOPLAY: ON ]' : '[ AUTOPLAY: OFF ]';
+        if (isAutoplayActive) {
+          autoplayToggle.classList.remove('text-primary-fixed');
+          autoplayToggle.classList.add('text-primary');
+        } else {
+          autoplayToggle.classList.remove('text-primary');
+          autoplayToggle.classList.add('text-primary-fixed', 'opacity-60');
+        }
+      }
+    }
+
+    function handleAutoplayToggle() {
+      isAutoplayActive = !isAutoplayActive;
+      if (isAutoplayActive) {
+        startAutoplay();
+      } else {
+        stopAutoplay();
+      }
+      updateAutoplayButtonUI();
+    }
+
+    // Event listeners
+    prevBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      prevSlide();
+      if (isAutoplayActive) startAutoplay(); // Reset interval on click
+    });
+
+    nextBtn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nextSlide();
+      if (isAutoplayActive) startAutoplay(); // Reset interval on click
+    });
+
+    autoplayToggle?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      handleAutoplayToggle();
+    });
+
+    thumbs.forEach((thumb) => {
+      thumb.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const index = parseInt(thumb.getAttribute('data-index') || '0', 10);
+        goToSlide(index);
+        if (isAutoplayActive) startAutoplay(); // Reset interval on click
+      });
+    });
+
+    // Pause autoplay on mouse enter and resume on leave
+    container.addEventListener('mouseenter', () => {
+      if (isAutoplayActive) stopAutoplay();
+    });
+
+    container.addEventListener('mouseleave', () => {
+      if (isAutoplayActive) startAutoplay();
+    });
+
+    // Touch support (swipe)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    container.addEventListener('touchstart', (e: TouchEvent) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e: TouchEvent) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const swipeDistance = touchStartX - touchEndX;
+      const minSwipeDistance = 50; // Threshold
+
+      if (swipeDistance > minSwipeDistance) {
+        nextSlide();
+        if (isAutoplayActive) startAutoplay();
+      } else if (swipeDistance < -minSwipeDistance) {
+        prevSlide();
+        if (isAutoplayActive) startAutoplay();
+      }
+    }
+
+    // Keyboard support (focus container first)
+    container.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+        if (isAutoplayActive) startAutoplay();
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+        if (isAutoplayActive) startAutoplay();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        // Expand currently selected image
+        e.preventDefault();
+        openLightbox();
+      }
+    });
+
+    // Lightbox functions
+    function openLightbox() {
+      if (lightbox) {
+        updateLightboxContent();
+        lightbox.classList.remove('hidden');
+        lightbox.classList.add('flex');
+        document.body.style.overflow = 'hidden';
+        if (isAutoplayActive) stopAutoplay();
+      }
+    }
+
+    function closeLightbox() {
+      if (lightbox) {
+        lightbox.classList.remove('flex');
+        lightbox.classList.add('hidden');
+        document.body.style.overflow = '';
+        if (isAutoplayActive) startAutoplay();
+      }
+    }
+
+    // Click slide to open lightbox
+    slides.forEach((slide) => {
+      slide.addEventListener('click', openLightbox);
+    });
+
+    lightboxClose?.addEventListener('click', closeLightbox);
+
+    lightbox?.addEventListener('click', (e) => {
+      // Close only if clicking outside the image and details card
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    lightboxPrev?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      prevSlide();
+    });
+
+    lightboxNext?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      nextSlide();
+    });
+
+    // Keyboard listener for lightbox
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (lightbox && !lightbox.classList.contains('hidden')) {
+        if (e.key === 'Escape') {
+          closeLightbox();
+        } else if (e.key === 'ArrowLeft') {
+          prevSlide();
+        } else if (e.key === 'ArrowRight') {
+          nextSlide();
+        }
+      }
+    });
+
+    // Initialize Autoplay on page load
+    if (isAutoplayActive) {
+      startAutoplay();
+    }
+    updateAutoplayButtonUI();
+  }
+</script>

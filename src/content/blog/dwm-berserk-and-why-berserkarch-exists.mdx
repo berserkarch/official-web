@@ -1,0 +1,150 @@
+---
+title: "DWM, Berserk, Falconia & Why BerserkArch Exists"
+description: "DWM is out. That makes seven. And with that, BerserkArch moves out of beta — for real this time."
+pubDate: 2026-05-26
+author: "Gaurav Raj (@thehackersbrain)"
+tags: ["berserkarch", "dwm", "linux", "archlinux", "berserk", "suckless"]
+draft: false
+---
+
+import Carousel from '../../components/Carousel.astro';
+
+So first things first...
+
+DWM is out.
+
+That brings the total to seven desktop environment profiles.
+
+And with that, I'm calling BerserkArch stable.
+
+---
+
+## Seven Profiles
+
+Here's the full lineup:
+
+1. OpenBox
+2. I3WM
+3. XFCE
+4. KDE
+5. GNOME
+6. Hyprland
+7. DWM ← new (though this is the best in my opinion, it's a modified version of siduck's [chadwm](https://github.com/siduck/chadwm)).
+
+<Carousel />
+
+Each one ships with its own opinionated defaults.  
+Nothing here is stock.  
+Nothing here is "just install it and figure it out."
+
+
+
+DWM especially — it comes patched and configured. If you know suckless, you know what that means. If you don't, well, that's a separate post.
+
+---
+
+## What "Stable" Actually Means
+
+Since the beginning, BerserkArch has been in a beta state.
+
+Not broken. Usable. But always with an asterisk.
+
+The installer was being refined. The repo channels were taking shape. The profiles were being figured out. There was always _something_ that wasn't quite locked in.
+
+That's done now.
+
+BerserkArch is stable.
+
+And to be clear — stable doesn't mean frozen. It's still a rolling release. Packages will always be latest. That's the whole point.
+
+What's stable is the _project_ itself.
+
+The profiles. The infrastructure. The installer. The `berserk` CLI. The repo pipeline. All of it is solid.
+
+You can run this as your daily driver without worrying that something is going to shift under you (not that it wasn't ready before, but YEAH!!!).
+
+---
+
+## What Happens Now
+
+Maintenance mode.
+
+That's the honest answer.
+
+No new DE profiles are planned. No major rewrites on the horizon. If something breaks, it gets fixed. If something genuinely worth adding shows up, it gets added. But we're not chasing more just for the sake of it.
+
+Seven profiles is enough.  
+The stack is solid.  
+The project is where I wanted it to be.
+
+---
+
+## The Why
+
+Now addressing the elephant in the room. Why does BerserkArch even exist?
+
+I was tired of Linux distros that existed for hacking and dev work. The most famous one for cybersecurity is Kali Linux, then Parrot OS I guess. But here's the thing, both are based on Debian, and if you know anything about Linux, you know Debian is not just stable; it's so stable, to the point that it's only mere steps away from being stale (if it isn't already).
+
+But credit where it's due, Kali Linux handles it well. It may be because it uses Debian testing or just because Kali's team is so active (and yeah, it's a fact, they push updates/commits like crazy). But apart from that, Debian is still Debian, and packages are still not on par with upstream. I mean sure, there are workarounds like using testing repos or enabling unofficial repos, but that's just messy and not something I would recommend for a daily driver.
+
+And apart from Kali, yeah, it's much more difficult in Parrot or any other Debian-based distro (though I don't know if there are any except for those two).
+
+So as many others do, I started using other things (like many goes with vanilla debian or ubuntu but in my case it was) bare Arch for my VMs for hacking and dev work. So yeah, it was awesome, but then again, as a security researcher or even a developer (though I don't think this applies much to dev, but still), I had to create and destroy VMs like crazy. Another problem with Arch was (though it solved the almost-stale problem) that it takes time every time to get it up and configured for the work you're intending to do on it.
+
+So what I did was, I had bash scripts (basically a "glue things together" approach): one script for installation (download the Arch ISO, run the script, and it was installed with my preferences), then one script for setting up the system with tools, configs, and all to get it running.
+
+As time went on, I had a massive number of scripts with almost 1000+ lines in all. And yeah, options existed: EndeavourOS, Manjaro, now CachyOS, or, more specific to cybersecurity, BlackArch and AthenaOS. But as of now (2026), BlackArch is not focusing on ISOs but has instead become almost entirely focused on its package mirrors. And though AthenaOS is still working, it's fine on hardware but not really good in VMs (I don't know how to explain, but it's sometimes sluggish, and if you've tried it, you know what I mean), and I really don't want to install it on hardware. And using general-purpose Arch distros (i.e., EndeavourOS, CachyOS) is still the same configuration problem, just one level above.
+
+So I had massive scripts and configurations for Arch. It became so much so that I thought, "why not just a simple ISO with all things loaded?" So that's how BerserkArch was created (why BerserkArch? I like Berserk, simple as that. And yeah, Berserk Ch 384 is expected to release on June 12, 2026, but yeah, I'm 20 now, and I guess I'll be dead by the time it completes, or maybe it'll leave us like Vagabond did). Just like how Erik Dubois did with the KIRO ISO (owner of ArcoLinux, an awesome Arch-based distro, and an amazing guy; do watch his channel if you like Linux [here](https://www.youtube.com/@erikdubois/videos)). First, he started KIRO as his personal ISO, then after it became big enough, he announced it publicly.
+
+So yeah, I had scripts for every phase of things, from installation to setup to tool installation. So I thought, "why not a full distro?" And that's how BerserkArch became BerserkArch.
+
+
+### Berserk CLI
+
+So after the BerserkArch ISO was ready, I had to get a better setup for scripts to install tools. Yeah, I had BlackArch's repo, but most of its tooling was stale, most specifically Impacket or even the AUR sometimes (not always—the AUR was almost always up to date, but still not enough). So, the `berserk` CLI was born: it's basically a source-based package manager for security tooling. More on this [here](https://berserkarch.org/blog/berserkarch-hyprland-and-berserk-support#berserk).
+
+### Falconia (The TUI installer)
+
+So Calamares was the initial default installer for BerserkArch. Though it had its advantages (essentially just working as an installer), it had its share of disadvantages (far more than advantages, though). First of all, I had to write a lot of modules for it. Yeah, Calamares was never meant for Arch (yeah, it was an unofficial installer for many distros, but it was kind of more leaned toward Debian-based things). So needless to say, I had to write a lot of modules for it—modules to support pacstrap, to detect hardware, and all—but it was fine, right? It was good, until it wasn't.
+
+I mean, I have everything automated. The distro's official ISOs have weekly releases, so needless to say, it's always on the latest packages. But here's the thing: the Calamares package built on previous versions of libraries and dependencies (i.e., libboost) wouldn't work on the latest versions of libraries; it would even outright error out on launch. So yeah, I had to find a better way to do things. Hence, Falconia (a TUI installer named after the fantasy city Falconia from Berserk, originated by Griffith himself) was born.
+
+Before that, to even run the Calamares installer, I had to ship a full DE (Desktop Environment) or WM (Window Manager) for Calamares to run.
+
+So Falconia is essentially the default TUI installer for BerserkArch going forward, cutting the ISO size from around 3.0 GB to 1.5 GB — essentially in half.
+
+---
+
+## What's Next
+
+On and on, I can go all out and explain much more, but the thing is, I wanted something to just work, not something to install and tinker to setup it up and feel like productive instead of doing the real work.
+
+The focus shifts to **Berserk Sources for Berserk CLI**.
+
+More on that soon — but if you've been watching the `berserk` CLI, you already have a rough idea of where this is going.
+
+The CLI is also getting expanded. More tooling sections. Docker support is on the list.
+
+That's the pipeline for now.
+
+---
+
+## Final Thoughts
+
+Beta is dead.
+
+BerserkArch is a real, stable, opinionated Linux distro for operators, hackers, and developers who want to own their environment.
+
+Try it. Break it. Make it yours.
+
+And if you still don't like it, just throw it out. I mean, Linux was always about one's own choice...
+
+---
+
+## Links
+
+- [BerserkArch GitHub](https://github.com/berserkarch)
+- [berserk CLI](https://github.com/thehackersbrain/berserk)
+- [Berserk Config Repo](https://github.com/berserkarch/berserk-repo)
+- [KIRO ISO](https://kiroproject.be/)
